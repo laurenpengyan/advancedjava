@@ -1,43 +1,43 @@
 
 public class Customer {
-	
-	private long customerId;
-	private String name;
-	private String address;
-	private String phoneNumber;
 
-	public Customer(long customerId, String name, String address, String phoneNumber) {
-		this.customerId = customerId;
-		this.name = name;
-		this.address = address;
-		this.phoneNumber = phoneNumber;
-	}
+    private long customerId;
+    private String name;
+    private String address;
+    private String phoneNumber;
 
-	public long getCustomerId() {
-		return customerId;
-	}
+    public Customer(long customerId, String name, String address, String phoneNumber) {
+        this.customerId = customerId;
+        this.name = name;
+        this.address = address;
+        this.phoneNumber = phoneNumber;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public long getCustomerId() {
+        return customerId;
+    }
 
-	public String getAddress() {
-		return address;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public String getPhoneNumber() {
-		return phoneNumber;
-	}
+    public String getAddress() {
+        return address;
+    }
 
-	public void setAddress(String address) {
-		this.address = address;
-	}
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setAddress(String address) {
+        this.address = address;
+    }
 
-	public void setPhoneNumber(String phoneNumber) {
-		this.phoneNumber = phoneNumber;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
 }

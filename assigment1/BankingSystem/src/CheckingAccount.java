@@ -1,38 +1,45 @@
+import java.util.Objects;
 
 public class CheckingAccount extends Account {
 
-	public CheckingAccount(long customerId, long accountId, double balance, double interestRate) {
-		super(customerId, accountId, balance, interestRate);
-	}
+    public double getOverDraftFee() {
+        return overDraftFee;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		// If the object is compared with itself then return true
-		if (obj == this) {
-			return true;
-		}
+    public void setOverDraftFee(double overDraftFee) {
+        this.overDraftFee = overDraftFee;
+    }
 
-		//  Check if o is an instance of CheckingAccount.
-		if (!(obj instanceof CheckingAccount)) {
-			return false;
-		}
+    private double overDraftFee;
 
-		// Typecast obj to CheckingAccount so that we can compare properties.
-		CheckingAccount account = (CheckingAccount) obj;
+    public CheckingAccount(long customerId, long accountId, double balance, double interestRate, double overDraftFee) {
+        super(customerId, accountId, balance, interestRate);
+        this.overDraftFee = overDraftFee;
+    }
 
-		// Compare the properties.
-		return Double.compare(getAccountId(), account.getAccountId()) == 0;
-	}
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
 
-	@Override
-	public String toString() {
-		return "Checking account information - AccountId: " + getAccountId() + " Balance: $" + getBalance() +
-				" Interest Rate: " + getInterestRate() + "%";
-	}
+        CheckingAccount that = (CheckingAccount) o;
 
-	@Override
-	public void close() {
-		
-	}
+        return Double.compare(that.overDraftFee, overDraftFee) == 0;
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), overDraftFee);
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("CheckingAccount{");
+        sb.append("overDraftFee=").append(overDraftFee);
+        sb.append(", ");
+        sb.append(super.toString());
+        sb.append('}');
+        return sb.toString();
+    }
 }

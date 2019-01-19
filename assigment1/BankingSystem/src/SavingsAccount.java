@@ -1,38 +1,43 @@
+import java.util.Objects;
 
 public class SavingsAccount extends Account {
 
-	public SavingsAccount(long customerId, long accountId, double balance, double interestRate) {
-		super(customerId, accountId, balance, interestRate);
-	}
+    private int monthlyWithdrawalLimits;
 
-	@Override
-	public boolean equals(Object obj) {
-		// If the object is compared with itself then return true
-		if (obj == this) {
-			return true;
-		}
+    public int getMonthlyWithdrawalLimits() {
+        return monthlyWithdrawalLimits;
+    }
 
-		//  Check if o is an instance of SavingsAccount.
-		if (!(obj instanceof SavingsAccount)) {
-			return false;
-		}
+    public void setMonthlyWithdrawalLimits(int monthlyWithdrawalLimits) {
+        this.monthlyWithdrawalLimits = monthlyWithdrawalLimits;
+    }
 
-		// Typecast obj to SavingsAccount so that we can compare properties.
-		SavingsAccount account = (SavingsAccount) obj;
+    public SavingsAccount(long customerId, long accountId, double balance, double interestRate, int monthlyWithdrawalLimits) {
+        super(customerId, accountId, balance, interestRate);
+        this.monthlyWithdrawalLimits = monthlyWithdrawalLimits;
+    }
 
-		// Compare the properties.
-		return Double.compare(getAccountId(), account.getAccountId()) == 0;
-	}
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        SavingsAccount that = (SavingsAccount) o;
+        return monthlyWithdrawalLimits == that.monthlyWithdrawalLimits;
+    }
 
-	@Override
-	public String toString() {
-		return "Savings account information - AccountId: " + getAccountId() + " Balance: $" + getBalance() +
-				" Interest Rate: " + getInterestRate() + "%";
-	}
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), monthlyWithdrawalLimits);
+    }
 
-	public void close() {
-		// TODO Auto-generated method stub
-		
-	}
-
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("SavingsAccount{");
+        sb.append("monthlyWithdrawalLimits=").append(monthlyWithdrawalLimits);
+        sb.append(", ");
+        sb.append(super.toString());
+        sb.append('}');
+        return sb.toString();
+    }
 }
