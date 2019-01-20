@@ -49,7 +49,7 @@ public class CheckingAccount extends Account {
             System.out.println("The date is: " + date + " receiver is: " + receiver + " amount is " + amount + " the reason is: "
                     + reason);
         } else {
-            System.out.println("You don't have enough money in this account");
+            System.out.println("You don't have enough money in this account #" + getAccountId());
         }
     }
 }

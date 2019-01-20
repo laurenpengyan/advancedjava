@@ -60,18 +60,38 @@ public abstract class Account {
 
     // Instance methods.
     public void deposit(double depositAmount) {
-        balance += depositAmount;
-        System.out.println("New balance after deposit is: $" + balance);
+
+        if (depositAmount > 0) {
+            balance += depositAmount;
+            System.out.println("Account: #" + accountId + " new balance is $" + balance + " after $" + depositAmount + " deposit!");
+        } else {
+            System.out.println("Account: #" + accountId + " deposit amount must be positive!  Provided=$" + depositAmount + ".");
+        }
+
     }
 
     public void withdrawal(double withdrawalAmount) {
-        balance -= withdrawalAmount;
-        System.out.println("New balance after withdrawal is: $" + balance);
+
+        if (withdrawalAmount > 0) {
+            balance -= withdrawalAmount;
+            System.out.println("Account: #" + accountId + " new balance is $" + balance + " after $" + withdrawalAmount + " withdraw!");
+        } else {
+            System.out.println("Account: #" + accountId + " withdraw amount must be positive!  Provided=$" + withdrawalAmount + ".");
+        }
+
     }
 
-    public void transfer(long recipientAccountId, double transferAmount) {
-        System.out.println("Transfering: $" + transferAmount + " to account: " + recipientAccountId);
-        balance -= transferAmount;
+    public void transfer(Account recipientAccount, double transferAmount) {
+        if (this.getBalance() >= transferAmount) {
+            System.out.println("Transferring: $" + transferAmount + " from account #" + accountId + " to account #" + recipientAccount.getAccountId());
+
+            withdrawal(transferAmount);
+            recipientAccount.deposit(transferAmount);
+        } else {
+            System.out.println("Current account: #" + accountId + " doesn't have enough amount!  Need amount=$" + transferAmount + ".");
+
+        }
+
     }
 
     @Override
