@@ -42,4 +42,14 @@ public class CheckingAccount extends Account {
         sb.append('}');
         return sb.toString();
     }
+
+    public void openCheck(String date, String receiver, double amount, String reason) {
+
+        if (getBalance() >= amount) {
+            System.out.println("The date is: " + date + " receiver is: " + receiver + " amount is " + amount + " the reason is: "
+                    + reason);
+        } else {
+            System.out.println("You don't have enough money in this account");
+        }
+    }
 }

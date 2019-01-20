@@ -1,11 +1,11 @@
 
 public class CDAccount extends Account {
 
-	private int maturityPeriodMonths;
+	private int defaultMaturityPeriodMonths;
 
-	public CDAccount(long customerId, long accountId, double balance, double interestRate, int maturityPeriodMonths) {
+	public CDAccount(long customerId, long accountId, double balance, double interestRate, int defaultMaturityPeriodMonths) {
 		super(customerId, accountId, balance, interestRate);
-		this.maturityPeriodMonths = maturityPeriodMonths;
+		this.defaultMaturityPeriodMonths = defaultMaturityPeriodMonths;
 	}
 
 	// Override methods.
@@ -31,16 +31,16 @@ public class CDAccount extends Account {
 	@Override
 	public String toString() {
 		return "CD account information - Account ID: " + getAccountId() + " Balance: $" + getBalance() + " Interest Rate: "
-				+ getInterestRate() + "%" + " Maturity Period Months: " + maturityPeriodMonths;
+				+ getInterestRate() + "%" + " Maturity Period Months: " + defaultMaturityPeriodMonths;
 	}
 
 	// Getters and setters.
 	public int getMaturityPeriodMonths() {
-		return maturityPeriodMonths;
+		return defaultMaturityPeriodMonths;
 	}
 
-	public void setMaturityPeriodMonths(int maturityPeriodMonths) {
-		this.maturityPeriodMonths = maturityPeriodMonths;
+	public void setMaturityPeriodMonths(int defaultMaturityPeriodMonths) {
+		this.defaultMaturityPeriodMonths = defaultMaturityPeriodMonths;
 	}
 
 }

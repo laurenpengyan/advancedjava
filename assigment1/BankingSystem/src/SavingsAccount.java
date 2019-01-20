@@ -4,6 +4,16 @@ public class SavingsAccount extends Account {
 
     private int monthlyWithdrawalLimits;
 
+    private int currentMonthWithdrawalCount;
+
+    public int getCurrentMonthWithdrawalCount() {
+        return currentMonthWithdrawalCount;
+    }
+
+    public void setCurrentMonthWithdrawalCount(int currentMonthWithdrawalCount) {
+        this.currentMonthWithdrawalCount = currentMonthWithdrawalCount;
+    }
+
     public int getMonthlyWithdrawalLimits() {
         return monthlyWithdrawalLimits;
     }
@@ -15,6 +25,7 @@ public class SavingsAccount extends Account {
     public SavingsAccount(long customerId, long accountId, double balance, double interestRate, int monthlyWithdrawalLimits) {
         super(customerId, accountId, balance, interestRate);
         this.monthlyWithdrawalLimits = monthlyWithdrawalLimits;
+        this.currentMonthWithdrawalCount = 0;
     }
 
     @Override
@@ -39,5 +50,22 @@ public class SavingsAccount extends Account {
         sb.append(super.toString());
         sb.append('}');
         return sb.toString();
+    }
+
+    public boolean isMontlyWithdrawalLimitReached() {
+        return currentMonthWithdrawalCount >= monthlyWithdrawalLimits;
+    }
+
+    @Override
+    public void withdrawal(double withdrawalAmount) {
+
+        if (!isMontlyWithdrawalLimitReached()) {
+            System.out.println("You try to withdraw: $"+ withdrawalAmount);
+            super.withdrawal(withdrawalAmount);
+            currentMonthWithdrawalCount++;
+        } else {
+            System.out.println("You already used limited for withdrawal");
+        }
+
     }
 }
