@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/assigment1/BankingSystem/BankingSystem.iml" filepath="$PROJECT_DIR$/assigment1/BankingSystem/BankingSystem.iml" />
-      <module fileurl="file://$PROJECT_DIR$/assigment2/BankingSystem/BankingSystem1.iml" filepath="$PROJECT_DIR$/assigment2/BankingSystem/BankingSystem1.iml" />
     </modules>
   </component>
 </project>
