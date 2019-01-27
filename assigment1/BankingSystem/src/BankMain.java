@@ -1,6 +1,5 @@
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -13,7 +12,6 @@ public class BankMain {
         CDAccount cdAccount = new CDAccount(2, 4, new BigDecimal(1000.0), new BigDecimal("0.05"), 12);
 
         List<Account> accounts = new ArrayList<>();
-        // Account[] accounts = {checkingAccount, savingsAccount, cdAccount};
 
         accounts.add(checkingAccount);
         accounts.add(savingsAccount);
@@ -63,8 +61,13 @@ public class BankMain {
 
 
         // M2 HOMEWORK ENUM USE
-        CheckingAccountCategory checkingAccountCategory = CheckingAccountCategory.PERSONAL;
-        checkingAccountCategory.getCheckingAccountCategory();
+        for (Account a : accounts) {
+            if (a instanceof CheckingAccount) {
+                CheckingAccount c = (CheckingAccount) a;
+                CheckingAccountType checkingAccountType = c.getCheckingAccountType();
+                System.out.println("Checking account #" + c.getAccountId() + " accountType=" + checkingAccountType + " defaultMonthlyFee=" + checkingAccountType.getDefaultMonthlyFee());
+            }
+        }
 
     }
 }
