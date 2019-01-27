@@ -1,30 +1,83 @@
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Objects;
 
-public abstract class Account {
+public abstract class Account implements Comparable<Account> {
+
+    private static final RoundingMode ROUNDING_MODE = RoundingMode.HALF_EVEN;
+
+    private static final int CURRENCY_PLACES = 2;
 
     private long customerId;
     private long accountId;
-    private double balance;
+    // private double balance;
     private double interestRate;
+    private BigDecimal balance;
 
-    public Account(long customerId, long accountId, double balance, double interestRate) {
+    public Account(long customerId, long accountId, BigDecimal balance, double interestRate) {
         this.customerId = customerId;
         this.accountId = accountId;
-        this.balance = balance;
+        this.balance = convertToCurrencyFormat(balance);
         this.interestRate = interestRate;
     }
 
-    // Getters and setters.
+    public void deposit(BigDecimal depositAmount) {
+
+        if (depositAmount.doubleValue() > 0) {
+            balance = balance.add(convertToCurrencyFormat(depositAmount));
+            // balance += depositAmount;
+            System.out.println("Account: #" + accountId + " new balance is $" + balance + " after $" + depositAmount + " deposit!");
+        } else {
+            System.out.println("Account: #" + accountId + " deposit amount must be positive!  Provided=$" + depositAmount + ".");
+        }
+
+    }
+
+    public void withdrawal(BigDecimal withdrawalAmount) {
+        if (withdrawalAmount.doubleValue() > 0) {
+            balance = balance.subtract(convertToCurrencyFormat(withdrawalAmount));
+            System.out.println("Account: #" + accountId + " new balance is $" + balance + " after $" + withdrawalAmount + " withdraw!");
+        } else {
+            System.out.println("Account: #" + accountId + " withdraw amount must be positive!  Provided=$" + withdrawalAmount + ".");
+        }
+    }
+
+    public void transfer(Account recipientAccount, BigDecimal transferAmount) {
+        if (balance.compareTo(convertToCurrencyFormat(transferAmount)) >= 0) {
+            System.out.println("Transferring: $" + transferAmount + " from account #" + accountId + " to account #" + recipientAccount.getAccountId());
+            withdrawal(transferAmount);
+            recipientAccount.deposit(transferAmount);
+        } else {
+            System.out.println("Current account: #" + accountId + " doesn't have enough amount!  Need amount=$" + transferAmount + ".");
+        }
+    }
+
+    public static BigDecimal convertToCurrencyFormat(BigDecimal value) {
+        return value.setScale(CURRENCY_PLACES, ROUNDING_MODE);
+    }
+
     public long getCustomerId() {
         return customerId;
+    }
+
+    public void setCustomerId(long customerId) {
+        this.customerId = customerId;
     }
 
     public long getAccountId() {
         return accountId;
     }
 
-    public double getBalance() {
+    public void setAccountId(long accountId) {
+        this.accountId = accountId;
+    }
+
+    public BigDecimal getBalance() {
         return balance;
+    }
+
+    public void setBalance(BigDecimal balance) {
+        this.balance = balance;
     }
 
     public double getInterestRate() {
@@ -33,10 +86,6 @@ public abstract class Account {
 
     public void setInterestRate(double interestRate) {
         this.interestRate = interestRate;
-    }
-
-    public void setCustomerId(long customerId) {
-        this.customerId = customerId;
     }
 
     @Override
@@ -50,50 +99,6 @@ public abstract class Account {
         return sb.toString();
     }
 
-    public void setAccountId(long accountId) {
-        this.accountId = accountId;
-    }
-
-    public void setBalance(double balance) {
-        this.balance = balance;
-    }
-
-    // Instance methods.
-    public void deposit(double depositAmount) {
-
-        if (depositAmount > 0) {
-            balance += depositAmount;
-            System.out.println("Account: #" + accountId + " new balance is $" + balance + " after $" + depositAmount + " deposit!");
-        } else {
-            System.out.println("Account: #" + accountId + " deposit amount must be positive!  Provided=$" + depositAmount + ".");
-        }
-
-    }
-
-    public void withdrawal(double withdrawalAmount) {
-
-        if (withdrawalAmount > 0) {
-            balance -= withdrawalAmount;
-            System.out.println("Account: #" + accountId + " new balance is $" + balance + " after $" + withdrawalAmount + " withdraw!");
-        } else {
-            System.out.println("Account: #" + accountId + " withdraw amount must be positive!  Provided=$" + withdrawalAmount + ".");
-        }
-
-    }
-
-    public void transfer(Account recipientAccount, double transferAmount) {
-        if (this.getBalance() >= transferAmount) {
-            System.out.println("Transferring: $" + transferAmount + " from account #" + accountId + " to account #" + recipientAccount.getAccountId());
-
-            withdrawal(transferAmount);
-            recipientAccount.deposit(transferAmount);
-        } else {
-            System.out.println("Current account: #" + accountId + " doesn't have enough amount!  Need amount=$" + transferAmount + ".");
-
-        }
-
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -101,7 +106,7 @@ public abstract class Account {
         Account account = (Account) o;
         return customerId == account.customerId &&
                 accountId == account.accountId &&
-                Double.compare(account.balance, balance) == 0 &&
+                balance.compareTo(account.balance) == 0 &&
                 Double.compare(account.interestRate, interestRate) == 0;
     }
 
@@ -110,4 +115,21 @@ public abstract class Account {
         return Objects.hash(customerId, accountId, balance, interestRate);
     }
 
+    public int compareTo(Account o) {
+
+        // change this to use balance
+
+        // First account is less than second account.
+        if (this.accountId < o.accountId) {
+            return -1;
+        }
+
+        // First account is greater than second account.
+        else if(this.accountId > o.accountId){
+            return 1;
+        }
+
+        // The accounts are equal.
+        return 0;
+    }
 }

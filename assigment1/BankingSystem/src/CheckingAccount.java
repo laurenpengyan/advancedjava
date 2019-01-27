@@ -12,6 +12,33 @@ public class CheckingAccount extends Account {
 
     private double overDraftFee;
 
+    // M2 HOMEWORK STATIC
+    private static final String CHECKING_ACCOUNT_TYPE = "checking";
+
+    /*
+    // M2 HOMEWORK ENUM
+    public enum CheckingAccountCategory {
+        PERSONAL, STUDENT, BUSINESS;
+
+        public void getCheckingAccountCategory() {
+            switch (this) {
+                case PERSONAL: {
+                    System.out.println("this is Personal category of checking account ");
+                    break;
+                }
+                case STUDENT: {
+                    System.out.println("this is Student category of checking account");
+                    break;
+                }
+                case BUSINESS: {
+                    System.out.println("this is Business category of checking account");
+                    break;
+                }
+            }
+        }
+    }
+    */
+
     public CheckingAccount(long customerId, long accountId, double balance, double interestRate, double overDraftFee) {
         super(customerId, accountId, balance, interestRate);
         this.overDraftFee = overDraftFee;
@@ -52,4 +79,10 @@ public class CheckingAccount extends Account {
             System.out.println("You don't have enough money in this account #" + getAccountId());
         }
     }
+
+    // M2 HOMEWORK STATIC
+    public static String getCheckingAccountType() {
+        return CHECKING_ACCOUNT_TYPE;
+    }
+
 }

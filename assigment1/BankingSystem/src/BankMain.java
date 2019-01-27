@@ -1,5 +1,8 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+
+
 
 public class BankMain {
 
@@ -8,11 +11,12 @@ public class BankMain {
         SavingsAccount savingsAccount = new SavingsAccount(2, 3, 500.0, .5, 2);
         CDAccount cdAccount = new CDAccount(2, 4, 1000.0, 1.5, 12);
 
-        List<Account> accounts = new ArrayList<>();
+        //List<Account> accounts = new ArrayList<>();
+        Account[] accounts = {checkingAccount, savingsAccount,cdAccount};
 
-        accounts.add(checkingAccount);
-        accounts.add(savingsAccount);
-        accounts.add(cdAccount);
+        //accounts.add(checkingAccount);
+        //accounts.add(savingsAccount);
+        //accounts.add(cdAccount);
 
         for (Account a : accounts) {
             System.out.println(a.toString());
@@ -44,6 +48,20 @@ public class BankMain {
                 System.out.println("SavingsAccount: " + a.getAccountId() + " Is Monthly Withdrawal Limit Reached: " + ((SavingsAccount) a).isMontlyWithdrawalLimitReached());
             }
         }
+
+         System.out.println();
+
+
+         Arrays.sort(accounts);
+         for (Account a : accounts) {
+        System.out.println(a.toString());
     }
 
+         System.out.println();
+
+
+        // M2 HOMEWORK ENUM USE
+         CheckingAccountCategory checkingAccountCategory = CheckingAccountCategory.PERSONAL;
+         checkingAccountCategory.getCheckingAccountCategory();
+    }
 }
