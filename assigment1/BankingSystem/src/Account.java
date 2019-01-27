@@ -8,23 +8,27 @@ public abstract class Account implements Comparable<Account> {
 
     private static final int CURRENCY_PLACES = 2;
 
+    // M2 HOMEWORK STATIC
+    public static BigDecimal roundToCurrency(BigDecimal value) {
+        return value.setScale(CURRENCY_PLACES, ROUNDING_MODE);
+    }
+
     private long customerId;
     private long accountId;
-    // private double balance;
-    private double interestRate;
-    private BigDecimal balance;
+    private BigDecimal interestRate = BigDecimal.ZERO;
+    private BigDecimal balance = BigDecimal.ZERO;
 
-    public Account(long customerId, long accountId, BigDecimal balance, double interestRate) {
+    public Account(long customerId, long accountId, BigDecimal balance, BigDecimal interestRate) {
         this.customerId = customerId;
         this.accountId = accountId;
-        this.balance = convertToCurrencyFormat(balance);
+        this.balance = roundToCurrency(balance);
         this.interestRate = interestRate;
     }
 
     public void deposit(BigDecimal depositAmount) {
 
         if (depositAmount.doubleValue() > 0) {
-            balance = balance.add(convertToCurrencyFormat(depositAmount));
+            balance = balance.add(roundToCurrency(depositAmount));
             // balance += depositAmount;
             System.out.println("Account: #" + accountId + " new balance is $" + balance + " after $" + depositAmount + " deposit!");
         } else {
@@ -35,7 +39,7 @@ public abstract class Account implements Comparable<Account> {
 
     public void withdrawal(BigDecimal withdrawalAmount) {
         if (withdrawalAmount.doubleValue() > 0) {
-            balance = balance.subtract(convertToCurrencyFormat(withdrawalAmount));
+            balance = balance.subtract(roundToCurrency(withdrawalAmount));
             System.out.println("Account: #" + accountId + " new balance is $" + balance + " after $" + withdrawalAmount + " withdraw!");
         } else {
             System.out.println("Account: #" + accountId + " withdraw amount must be positive!  Provided=$" + withdrawalAmount + ".");
@@ -43,17 +47,13 @@ public abstract class Account implements Comparable<Account> {
     }
 
     public void transfer(Account recipientAccount, BigDecimal transferAmount) {
-        if (balance.compareTo(convertToCurrencyFormat(transferAmount)) >= 0) {
+        if (balance.compareTo(roundToCurrency(transferAmount)) >= 0) {
             System.out.println("Transferring: $" + transferAmount + " from account #" + accountId + " to account #" + recipientAccount.getAccountId());
             withdrawal(transferAmount);
             recipientAccount.deposit(transferAmount);
         } else {
             System.out.println("Current account: #" + accountId + " doesn't have enough amount!  Need amount=$" + transferAmount + ".");
         }
-    }
-
-    public static BigDecimal convertToCurrencyFormat(BigDecimal value) {
-        return value.setScale(CURRENCY_PLACES, ROUNDING_MODE);
     }
 
     public long getCustomerId() {
@@ -80,11 +80,11 @@ public abstract class Account implements Comparable<Account> {
         this.balance = balance;
     }
 
-    public double getInterestRate() {
+    public BigDecimal getInterestRate() {
         return interestRate;
     }
 
-    public void setInterestRate(double interestRate) {
+    public void setInterestRate(BigDecimal interestRate) {
         this.interestRate = interestRate;
     }
 
@@ -106,8 +106,8 @@ public abstract class Account implements Comparable<Account> {
         Account account = (Account) o;
         return customerId == account.customerId &&
                 accountId == account.accountId &&
-                balance.compareTo(account.balance) == 0 &&
-                Double.compare(account.interestRate, interestRate) == 0;
+                Objects.equals(interestRate, account.interestRate) &&
+                Objects.equals(balance, account.balance);
     }
 
     @Override
@@ -115,21 +115,27 @@ public abstract class Account implements Comparable<Account> {
         return Objects.hash(customerId, accountId, balance, interestRate);
     }
 
-    public int compareTo(Account o) {
 
-        // change this to use balance
-
-        // First account is less than second account.
-        if (this.accountId < o.accountId) {
+    @Override
+    public int compareTo(Account that) {
+        if (this.balance.compareTo(that.balance) < 0) {
             return -1;
-        }
-
-        // First account is greater than second account.
-        else if(this.accountId > o.accountId){
+        } else if (this.balance.compareTo(that.balance) > 0) {
             return 1;
         }
 
-        // The accounts are equal.
+        if (this.accountId < that.accountId) {
+            return -1;
+        } else if (this.accountId > that.accountId) {
+            return 1;
+        }
+
+        if (this.customerId < that.customerId) {
+            return -1;
+        } else if (this.customerId > that.customerId) {
+            return 1;
+        }
         return 0;
     }
+
 }

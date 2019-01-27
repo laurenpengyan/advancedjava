@@ -1,3 +1,4 @@
+import java.math.BigDecimal;
 import java.util.Objects;
 
 public class SavingsAccount extends Account {
@@ -22,7 +23,7 @@ public class SavingsAccount extends Account {
         this.monthlyWithdrawalLimits = monthlyWithdrawalLimits;
     }
 
-    public SavingsAccount(long customerId, long accountId, double balance, double interestRate, int monthlyWithdrawalLimits) {
+    public SavingsAccount(long customerId, long accountId, BigDecimal balance, BigDecimal interestRate, int monthlyWithdrawalLimits) {
         super(customerId, accountId, balance, interestRate);
         this.monthlyWithdrawalLimits = monthlyWithdrawalLimits;
         this.currentMonthWithdrawalCount = 0;
@@ -57,7 +58,7 @@ public class SavingsAccount extends Account {
     }
 
     @Override
-    public void withdrawal(double withdrawalAmount) {
+    public void withdrawal(BigDecimal withdrawalAmount) {
 
         if (!isMontlyWithdrawalLimitReached()) {
             System.out.println("You try to withdraw: $"+ withdrawalAmount);

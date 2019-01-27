@@ -1,10 +1,11 @@
+import java.math.BigDecimal;
 import java.util.Objects;
 
 public class CDAccount extends Account {
 
     private int defaultMaturityPeriodMonths;
 
-    public CDAccount(long customerId, long accountId, double balance, double interestRate, int defaultMaturityPeriodMonths) {
+    public CDAccount(long customerId, long accountId, BigDecimal balance, BigDecimal interestRate, int defaultMaturityPeriodMonths) {
         super(customerId, accountId, balance, interestRate);
         this.defaultMaturityPeriodMonths = defaultMaturityPeriodMonths;
     }

@@ -1,16 +1,17 @@
+import java.math.BigDecimal;
 import java.util.Objects;
 
 public class CheckingAccount extends Account {
 
-    public double getOverDraftFee() {
+    public BigDecimal getOverDraftFee() {
         return overDraftFee;
     }
 
-    public void setOverDraftFee(double overDraftFee) {
+    public void setOverDraftFee(BigDecimal overDraftFee) {
         this.overDraftFee = overDraftFee;
     }
 
-    private double overDraftFee;
+    private BigDecimal overDraftFee;
 
     // M2 HOMEWORK STATIC
     private static final String CHECKING_ACCOUNT_TYPE = "checking";
@@ -39,7 +40,7 @@ public class CheckingAccount extends Account {
     }
     */
 
-    public CheckingAccount(long customerId, long accountId, double balance, double interestRate, double overDraftFee) {
+    public CheckingAccount(long customerId, long accountId, BigDecimal balance, BigDecimal interestRate, BigDecimal overDraftFee) {
         super(customerId, accountId, balance, interestRate);
         this.overDraftFee = overDraftFee;
     }
@@ -52,7 +53,7 @@ public class CheckingAccount extends Account {
 
         CheckingAccount that = (CheckingAccount) o;
 
-        return Double.compare(that.overDraftFee, overDraftFee) == 0;
+        return Objects.equals(that.overDraftFee, overDraftFee);
     }
 
     @Override
@@ -70,9 +71,9 @@ public class CheckingAccount extends Account {
         return sb.toString();
     }
 
-    public void openCheck(String date, String receiver, double amount, String reason) {
+    public void openCheck(String date, String receiver, BigDecimal amount, String reason) {
 
-        if (getBalance() >= amount) {
+        if (getBalance().compareTo(amount) > 0) {
             System.out.println("The date is: " + date + " receiver is: " + receiver + " amount is " + amount + " the reason is: "
                     + reason);
         } else {
