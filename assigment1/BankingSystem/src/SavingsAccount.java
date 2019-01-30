@@ -3,6 +3,37 @@ import java.util.Objects;
 
 public class SavingsAccount extends Account {
 
+    public static class Builder {
+
+        private long customerId;
+        private long accountId;
+        private BigDecimal interestRate = BigDecimal.ZERO;
+        private BigDecimal balance = BigDecimal.ZERO;
+
+        public void setMonthlyWithdrawalLimits(int monthlyWithdrawalLimits) {
+            this.monthlyWithdrawalLimits = monthlyWithdrawalLimits;
+        }
+
+        private int monthlyWithdrawalLimits;
+
+        public void setCustomerId(long customerId){
+            this.customerId = customerId;
+        }
+
+        public void setInterestRate(BigDecimal interestRate) {
+            this.interestRate = interestRate;
+        }
+
+        public void setBalance(BigDecimal balance) {
+            this.balance = balance;
+        }
+
+        public void setAccountId(long accountId) {
+            this.accountId = accountId;
+        }
+
+    }
+
     private int monthlyWithdrawalLimits;
 
     private int currentMonthWithdrawalCount;
@@ -23,6 +54,13 @@ public class SavingsAccount extends Account {
         this.monthlyWithdrawalLimits = monthlyWithdrawalLimits;
     }
 
+    private SavingsAccount(Builder builder) {
+        super(builder.customerId, builder.accountId, builder.balance, builder.interestRate);
+        this.monthlyWithdrawalLimits = builder.monthlyWithdrawalLimits;
+        this.currentMonthWithdrawalCount = 0;
+    }
+
+    @Deprecated
     public SavingsAccount(long customerId, long accountId, BigDecimal balance, BigDecimal interestRate, int monthlyWithdrawalLimits) {
         super(customerId, accountId, balance, interestRate);
         this.monthlyWithdrawalLimits = monthlyWithdrawalLimits;
@@ -61,7 +99,7 @@ public class SavingsAccount extends Account {
     public void withdrawal(BigDecimal withdrawalAmount) {
 
         if (!isMontlyWithdrawalLimitReached()) {
-            System.out.println("You try to withdraw: $"+ withdrawalAmount);
+            System.out.println("You try to withdraw: $" + withdrawalAmount);
             super.withdrawal(withdrawalAmount);
             currentMonthWithdrawalCount++;
         } else {

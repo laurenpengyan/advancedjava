@@ -4,19 +4,21 @@ import java.util.Objects;
 
 public abstract class Account implements Comparable<Account> {
 
+    // M2 HOMEWORK STATIC
     private static final RoundingMode ROUNDING_MODE = RoundingMode.HALF_EVEN;
 
+    // M2 HOMEWORK STATIC
     private static final int CURRENCY_PLACES = 2;
 
-    // M2 HOMEWORK STATIC
+    // M2 HOMEWORK STATIC METHOD
     public static BigDecimal roundToCurrency(BigDecimal value) {
         return value.setScale(CURRENCY_PLACES, ROUNDING_MODE);
     }
 
-    private long customerId;
-    private long accountId;
-    private BigDecimal interestRate = BigDecimal.ZERO;
-    private BigDecimal balance = BigDecimal.ZERO;
+    protected long customerId;
+    protected long accountId;
+    protected BigDecimal interestRate = BigDecimal.ZERO;
+    protected BigDecimal balance = BigDecimal.ZERO;
 
     public Account(long customerId, long accountId, BigDecimal balance, BigDecimal interestRate) {
         this.customerId = customerId;
