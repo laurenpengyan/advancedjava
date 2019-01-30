@@ -8,7 +8,17 @@ public class BankMain {
 
     public static void main(String[] args) {
         CheckingAccount checkingAccount = new CheckingAccount(2, 2, new BigDecimal(200.0), new BigDecimal("0.01"), new BigDecimal(35.0));
-        SavingsAccount savingsAccount = new SavingsAccount(2, 3, new BigDecimal(500.0), new BigDecimal("0.03"), 2);
+
+        // M3 USING BUILDER
+        // Direct SavingAccountBuilder how to build SavingAccount
+        SavingsAccount.Builder savingAccountBuilder = new SavingsAccount.Builder();
+        savingAccountBuilder.setCustomerId(2).setAccountId(3).setBalance(new BigDecimal("500")).setInterestRate(new BigDecimal("0.03"));
+        savingAccountBuilder.setMonthlyWithdrawalLimits(2);
+
+        // M3 USING BUILDER
+        // Build a saving account
+        SavingsAccount savingsAccount = new SavingsAccount(savingAccountBuilder);
+
         CDAccount cdAccount = new CDAccount(2, 4, new BigDecimal(1000.0), new BigDecimal("0.05"), 12);
 
         List<Account> accounts = new ArrayList<>();

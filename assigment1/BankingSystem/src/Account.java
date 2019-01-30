@@ -15,10 +15,48 @@ public abstract class Account implements Comparable<Account> {
         return value.setScale(CURRENCY_PLACES, ROUNDING_MODE);
     }
 
+    // M3 USING BUILDER
+    public static class Builder {
+
+        protected long customerId;
+        protected long accountId;
+        protected BigDecimal interestRate = BigDecimal.ZERO;
+        protected BigDecimal balance = BigDecimal.ZERO;
+
+        public Builder setCustomerId(long customerId) {
+            this.customerId = customerId;
+            return this;
+        }
+
+        public Builder setInterestRate(BigDecimal interestRate) {
+            this.interestRate = interestRate;
+            return this;
+        }
+
+        public Builder setBalance(BigDecimal balance) {
+            this.balance = balance;
+            return this;
+        }
+
+        public Builder setAccountId(long accountId) {
+            this.accountId = accountId;
+            return this;
+        }
+
+    }
+
     protected long customerId;
     protected long accountId;
-    protected BigDecimal interestRate = BigDecimal.ZERO;
-    protected BigDecimal balance = BigDecimal.ZERO;
+    protected BigDecimal interestRate;
+    protected BigDecimal balance;
+
+    // M3 USING BUILDER
+    public Account(Builder builder) {
+        this.customerId = builder.customerId;
+        this.accountId = builder.accountId;
+        this.balance = roundToCurrency(builder.balance);
+        this.interestRate = builder.interestRate;
+    }
 
     public Account(long customerId, long accountId, BigDecimal balance, BigDecimal interestRate) {
         this.customerId = customerId;

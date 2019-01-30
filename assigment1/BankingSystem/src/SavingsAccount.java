@@ -3,34 +3,15 @@ import java.util.Objects;
 
 public class SavingsAccount extends Account {
 
-    public static class Builder {
+    // M3 USING BUILDER
+    public static class Builder extends Account.Builder {
 
-        private long customerId;
-        private long accountId;
-        private BigDecimal interestRate = BigDecimal.ZERO;
-        private BigDecimal balance = BigDecimal.ZERO;
-
-        public void setMonthlyWithdrawalLimits(int monthlyWithdrawalLimits) {
+        public Builder setMonthlyWithdrawalLimits(int monthlyWithdrawalLimits) {
             this.monthlyWithdrawalLimits = monthlyWithdrawalLimits;
+            return this;
         }
 
         private int monthlyWithdrawalLimits;
-
-        public void setCustomerId(long customerId){
-            this.customerId = customerId;
-        }
-
-        public void setInterestRate(BigDecimal interestRate) {
-            this.interestRate = interestRate;
-        }
-
-        public void setBalance(BigDecimal balance) {
-            this.balance = balance;
-        }
-
-        public void setAccountId(long accountId) {
-            this.accountId = accountId;
-        }
 
     }
 
@@ -54,8 +35,9 @@ public class SavingsAccount extends Account {
         this.monthlyWithdrawalLimits = monthlyWithdrawalLimits;
     }
 
-    private SavingsAccount(Builder builder) {
-        super(builder.customerId, builder.accountId, builder.balance, builder.interestRate);
+    // M3 USING BUILDER
+    public SavingsAccount(Builder builder) {
+        super(builder);
         this.monthlyWithdrawalLimits = builder.monthlyWithdrawalLimits;
         this.currentMonthWithdrawalCount = 0;
     }
