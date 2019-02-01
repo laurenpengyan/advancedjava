@@ -9,7 +9,7 @@ class Product {
     +show()
     +getName(): String
     +getCode(): int
-    +setName(): String
+    +setName(): StringÍ
      +setCode() :int
 }
 
