@@ -1,0 +1,59 @@
+@startuml
+
+title Store Inventory
+
+class Product {
+    +name:String
+    +code:int
+    .. Methods ..
+    +show()
+    +getName(): String
+    +getCode(): int
+    +setName(): String
+     +setCode() :int
+}
+
+class Clothing {
+    +size: String
+    +idealFor: String
+    .. Methods ..
+    +show(): void
+    +getSize(): String
+    +getIdealFor(): String
+}
+
+ 
+class Electronics {
+    +brand: String
+    +warranty: String
+    .. Methods ..
+    +show(): void
+    +getSize(): String
+    +getWarranty(): String
+}
+
+Product <|-- Clothing: Inheritance
+Product <|-- Electronics: Inheritance
+
+class ProductInventory {
+    {abstract} +acquireProduct(): Product    
+    {abstract} +getInventory(): int
+    
+}
+
+class ClothingInventory {
+    +acquireProduct(): Product
+    +getInventory(): int
+}
+
+class ElectronicsInventory {
+    +acquireProduct(): Product
+    +getInventory(): int
+}
+
+ProductInventory <|-- ClothingInventory: Inheritance
+ProductInventory <|-- ElectronicsInventory: Inheritance
+
+note top of ProductInventory: Factory method pattern.\nThe factory method is acquireProduct().\nIt is used to acquire product inventory if restock needed.\nClothingInventory and ElectronicsInventory mplementations will return own type.
+
+@enduml
