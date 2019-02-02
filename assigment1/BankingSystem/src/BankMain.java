@@ -18,7 +18,7 @@ public class BankMain {
         // M3 USING BUILDER
         // Direct SavingAccountBuilder how to build SavingAccount
         SavingsAccount.Builder savingAccountBuilder = new SavingsAccount.Builder();
-        savingAccountBuilder.setCustomerId(2).setAccountId(3).setBalance(new BigDecimal("500")).setInterestRate(new BigDecimal("0.03"));
+        savingAccountBuilder.setCustomerId(2).setAccountId(3).setBalance(new BigDecimal("5000")).setInterestRate(new BigDecimal("0.03"));
         savingAccountBuilder.setMonthlyWithdrawalLimits(2);
 
         // M3 USING BUILDER
@@ -70,13 +70,29 @@ public class BankMain {
         System.out.println();
 
 
-        // Sort accounts
+        // Sort accounts using comparable
         Collections.sort(accounts);
         for (Account a : accounts) {
             System.out.println(a.toString());
         }
 
         System.out.println();
+
+        // M3 USING STRATEGY
+        // Sort strategy: the accounts by balance
+        Collections.sort(accounts, new AccountBalanceComparator());
+        System.out.println("Sort strategy: by balance");
+        for (Account a : accounts) {
+            System.out.println("\t" + a.toString());
+        }
+
+
+        // Sort strategy: the accounts by interest rate
+        Collections.sort(accounts, new AccountInterestRateComparator());
+        System.out.println("Sort strategy: by interest rate");
+        for (Account a : accounts) {
+            System.out.println("\t" + a.toString());
+        }
 
 
         // M2 HOMEWORK ENUM USE

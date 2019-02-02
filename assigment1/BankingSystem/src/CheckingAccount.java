@@ -7,7 +7,7 @@ public class CheckingAccount extends Account {
 
         private BigDecimal overDraftFee;
 
-        private CheckingAccountType checkingAccountType;
+        private CheckingAccountType checkingAccountType = CheckingAccountType.PERSONAL;
 
         public void setOverDraftFee(BigDecimal overDraftFee) {
             this.overDraftFee = overDraftFee;
