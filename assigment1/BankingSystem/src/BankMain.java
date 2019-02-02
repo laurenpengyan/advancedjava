@@ -81,7 +81,7 @@ public class BankMain {
         // M3 USING STRATEGY
         // Sort strategy: the accounts by balance
         Collections.sort(accounts, new AccountBalanceComparator());
-        System.out.println("Sort strategy: by balance");
+        System.out.println("xSort strategy: by balance");
         for (Account a : accounts) {
             System.out.println("\t" + a.toString());
         }
@@ -104,6 +104,19 @@ public class BankMain {
             }
         }
 
+        // M3 USING STRATEGY
+        // Use strategy to determine the reward rate
+        System.out.println("Calculate possible reward amount of account #" + savingsAccount.getAccountId() + " balance=" + savingsAccount.getBalance());
+        System.out.println("\t1. Flat reward amount is " + getRewardAmount(savingsAccount, new FlatRateRewardStrategy()));
+        System.out.println("\t1. Balanced-based reward amount is " + getRewardAmount(savingsAccount, new BalanceRewardStrategy()));
+
+
     }
+
+    private static BigDecimal getRewardAmount(Account account, AccountRewardStrategy strategy) {
+        // M3 USING STRATEGY
+        return account.getBalance().multiply(strategy.getRewardRate(account));
+    }
+
 
 }

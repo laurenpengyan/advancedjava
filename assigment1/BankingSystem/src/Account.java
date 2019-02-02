@@ -157,7 +157,6 @@ public abstract class Account implements Comparable<Account> {
         return Objects.hash(customerId, accountId, balance, interestRate);
     }
 
-
     @Override
     public int compareTo(Account that) {
         if (this.balance.compareTo(that.balance) < 0) {
