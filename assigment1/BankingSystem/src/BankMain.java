@@ -80,4 +80,14 @@ public class BankMain {
         }
 
     }
+
+    // move this code to main method
+    private static void factoryExample() {
+        // M3 USING FACTORY METHOD
+        AccountFactory checkingAccountFactory = new CheckingAccountFactory();
+
+        Account checkingAccount1 = checkingAccountFactory.createAccount(5, 9, new BigDecimal(200.0), new BigDecimal("0.01"), new BigDecimal(35.0));
+        Account checkingAccount2 = checkingAccountFactory.createAccount(6, 10, new BigDecimal(200.0), new BigDecimal("0.01"), new BigDecimal(35.0));
+
+    }
 }
