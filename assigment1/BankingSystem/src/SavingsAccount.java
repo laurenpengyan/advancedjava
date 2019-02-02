@@ -42,13 +42,6 @@ public class SavingsAccount extends Account {
         this.currentMonthWithdrawalCount = 0;
     }
 
-    @Deprecated
-    public SavingsAccount(long customerId, long accountId, BigDecimal balance, BigDecimal interestRate, int monthlyWithdrawalLimits) {
-        super(customerId, accountId, balance, interestRate);
-        this.monthlyWithdrawalLimits = monthlyWithdrawalLimits;
-        this.currentMonthWithdrawalCount = 0;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -3,11 +3,22 @@ import java.util.Objects;
 
 public class CDAccount extends Account {
 
+    public static class Builder extends Account.Builder {
+
+        private int defaultMaturityPeriodMonths;
+
+        public void setDefaultMaturityPeriodMonths(int defaultMaturityPeriodMonths) {
+            this.defaultMaturityPeriodMonths = defaultMaturityPeriodMonths;
+        }
+
+    }
+
+
     private int defaultMaturityPeriodMonths;
 
-    public CDAccount(long customerId, long accountId, BigDecimal balance, BigDecimal interestRate, int defaultMaturityPeriodMonths) {
-        super(customerId, accountId, balance, interestRate);
-        this.defaultMaturityPeriodMonths = defaultMaturityPeriodMonths;
+    public CDAccount(Builder builder) {
+        super(builder);
+        this.defaultMaturityPeriodMonths = builder.defaultMaturityPeriodMonths;
     }
 
     @Override

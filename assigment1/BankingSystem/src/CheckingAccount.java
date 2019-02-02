@@ -3,6 +3,22 @@ import java.util.Objects;
 
 public class CheckingAccount extends Account {
 
+    public static class Builder extends Account.Builder {
+
+        private BigDecimal overDraftFee;
+
+        private CheckingAccountType checkingAccountType;
+
+        public void setOverDraftFee(BigDecimal overDraftFee) {
+            this.overDraftFee = overDraftFee;
+        }
+
+        public void setCheckingAccountType(CheckingAccountType checkingAccountType) {
+            this.checkingAccountType = checkingAccountType;
+        }
+
+    }
+
     private final CheckingAccountType checkingAccountType;
 
     public CheckingAccountType getCheckingAccountType() {
@@ -19,16 +35,11 @@ public class CheckingAccount extends Account {
 
     private BigDecimal overDraftFee;
 
-    public CheckingAccount(long customerId, long accountId, BigDecimal balance, BigDecimal interestRate, BigDecimal overDraftFee) {
-        this(CheckingAccountType.PERSONAL, customerId, accountId, balance, interestRate, overDraftFee);
+    public CheckingAccount(CheckingAccount.Builder builder) {
+        super(builder);
+        this.checkingAccountType = builder.checkingAccountType;
+        this.overDraftFee = builder.overDraftFee;
     }
-
-    public CheckingAccount(CheckingAccountType checkingAccountType, long customerId, long accountId, BigDecimal balance, BigDecimal interestRate, BigDecimal overDraftFee) {
-        super(customerId, accountId, balance, interestRate);
-        this.checkingAccountType = checkingAccountType;
-        this.overDraftFee = overDraftFee;
-    }
-
 
     @Override
     public boolean equals(Object o) {

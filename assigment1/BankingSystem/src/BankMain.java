@@ -7,7 +7,13 @@ import java.util.List;
 public class BankMain {
 
     public static void main(String[] args) {
-        CheckingAccount checkingAccount = new CheckingAccount(2, 2, new BigDecimal(200.0), new BigDecimal("0.01"), new BigDecimal(35.0));
+
+        // M3 USING BUILDER
+        CheckingAccount.Builder checkingAccountBuilder = new CheckingAccount.Builder();
+        checkingAccountBuilder.setCustomerId(2).setAccountId(2).setBalance(new BigDecimal("200")).setInterestRate(new BigDecimal("0.01"));
+        checkingAccountBuilder.setOverDraftFee(new BigDecimal("35.0"));
+
+        CheckingAccount checkingAccount = new CheckingAccount(checkingAccountBuilder);
 
         // M3 USING BUILDER
         // Direct SavingAccountBuilder how to build SavingAccount
@@ -19,7 +25,10 @@ public class BankMain {
         // Build a saving account
         SavingsAccount savingsAccount = new SavingsAccount(savingAccountBuilder);
 
-        CDAccount cdAccount = new CDAccount(2, 4, new BigDecimal(1000.0), new BigDecimal("0.05"), 12);
+        CDAccount.Builder cdBuilder = new CDAccount.Builder();
+        cdBuilder.setCustomerId(2).setAccountId(4).setBalance(new BigDecimal("1000")).setInterestRate(new BigDecimal("0.05"));
+        cdBuilder.setDefaultMaturityPeriodMonths(12);
+        CDAccount cdAccount = new CDAccount( cdBuilder );
 
         List<Account> accounts = new ArrayList<>();
 
@@ -81,13 +90,4 @@ public class BankMain {
 
     }
 
-    // move this code to main method
-    private static void factoryExample() {
-        // M3 USING FACTORY METHOD
-        AccountFactory checkingAccountFactory = new CheckingAccountFactory();
-
-        Account checkingAccount1 = checkingAccountFactory.createAccount(5, 9, new BigDecimal(200.0), new BigDecimal("0.01"), new BigDecimal(35.0));
-        Account checkingAccount2 = checkingAccountFactory.createAccount(6, 10, new BigDecimal(200.0), new BigDecimal("0.01"), new BigDecimal(35.0));
-
-    }
 }

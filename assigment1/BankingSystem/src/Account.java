@@ -128,6 +128,8 @@ public abstract class Account implements Comparable<Account> {
         this.interestRate = interestRate;
     }
 
+    // Factory method
+
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("Account{");
