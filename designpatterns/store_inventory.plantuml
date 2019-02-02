@@ -35,25 +35,29 @@ class Electronics {
 Product <|-- Clothing: Inheritance
 Product <|-- Electronics: Inheritance
 
-class ProductInventory {
-    {abstract} +acquireProduct(): Product    
-    {abstract} +getInventory(): int
-    
+class Department {
+    {abstract} +getProduct(): Product
+    {abstract} +sell(product: Product)
 }
 
-class ClothingInventory {
-    +acquireProduct(): Product
-    +getInventory(): int
+class ClothingDepartment {
+    +getProduct(): Product
+    +sell(product: Product)
 }
 
-class ElectronicsInventory {
-    +acquireProduct(): Product
-    +getInventory(): int
+class ElectronicsDepartment {
+    +getProduct(): Product
+    +sell(product: Product)
 }
 
-ProductInventory <|-- ClothingInventory: Inheritance
-ProductInventory <|-- ElectronicsInventory: Inheritance
+Department <|-- ClothingDepartment: Inheritance
+Department <|-- ElectronicsDepartment: Inheritance
 
-note top of ProductInventory: Factory method pattern.\nThe factory method is acquireProduct().\nIt is used to acquire product inventory if restock needed.\nClothingInventory and ElectronicsInventory mplementations will return own type.
+note right of Department: Factory method pattern.\nDefines an abstract factory method getProduct().\nIt is used to get product from inventory to sell.
+
+note bottom of ClothingDepartment: Concrete implementation of getProduct()\nto return clothing product from inventory.
+
+note bottom of ElectronicsDepartment: Concrete implementation of getProduct()\nto return electronics product from inventory.
+
 
 @enduml
