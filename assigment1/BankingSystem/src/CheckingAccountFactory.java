@@ -1,5 +1,3 @@
-import java.math.BigDecimal;
-
 public class CheckingAccountFactory extends AccountFactory<CheckingAccount.Builder>{
 
     @Override
