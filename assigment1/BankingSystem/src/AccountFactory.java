@@ -1,7 +1,6 @@
-import java.math.BigDecimal;
 
-public abstract class AccountFactory {
+public abstract class AccountFactory<T extends Account.Builder> {
 
-    public abstract Account createAccount(Account.Builder builder);
+    public abstract Account createAccount(T builder);
 
 }

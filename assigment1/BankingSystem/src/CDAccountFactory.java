@@ -1,8 +1,8 @@
-public class CDAccountFactory extends AccountFactory {
+public class CDAccountFactory extends AccountFactory<CDAccount.Builder> {
 
     @Override
-    public Account createAccount(Account.Builder builder) {
-        return new CDAccount((CDAccount.Builder) builder);
+    public Account createAccount(CDAccount.Builder builder) {
+        return new CDAccount(builder);
     }
 
 }

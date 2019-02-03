@@ -6,6 +6,8 @@ import java.util.List;
 
 public class BankMain {
 
+    private static AccountFactory checkingAccountFactory = new CheckingAccountFactory();
+
     public static void main(String[] args) {
 
         // M3 USING BUILDER
@@ -13,7 +15,8 @@ public class BankMain {
         checkingAccountBuilder.setCustomerId(2).setAccountId(2).setBalance(new BigDecimal("200")).setInterestRate(new BigDecimal("0.01"));
         checkingAccountBuilder.setOverDraftFee(new BigDecimal("35.0"));
 
-        CheckingAccount checkingAccount = new CheckingAccount(checkingAccountBuilder);
+        // M3 USING FACTORY
+        CheckingAccount checkingAccount = (CheckingAccount) checkingAccountFactory.createAccount(checkingAccountBuilder);
 
         // M3 USING BUILDER
         // Direct SavingAccountBuilder how to build SavingAccount
@@ -25,11 +28,13 @@ public class BankMain {
         // Build a saving account
         SavingsAccount savingsAccount = new SavingsAccount(savingAccountBuilder);
 
+        // M3 USING BUILDER
         CDAccount.Builder cdBuilder = new CDAccount.Builder();
         cdBuilder.setCustomerId(2).setAccountId(4).setBalance(new BigDecimal("1000")).setInterestRate(new BigDecimal("0.05"));
         cdBuilder.setDefaultMaturityPeriodMonths(12);
         CDAccount cdAccount = new CDAccount( cdBuilder );
 
+        // Using array list to hold the accounts
         List<Account> accounts = new ArrayList<>();
 
         accounts.add(checkingAccount);
