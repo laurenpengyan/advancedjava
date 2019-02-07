@@ -22,6 +22,11 @@ public abstract class Account implements Comparable<Account> {
         protected long accountId;
         protected BigDecimal interestRate = BigDecimal.ZERO;
         protected BigDecimal balance = BigDecimal.ZERO;
+        protected AccountRewardStrategy accountRewardStrategy = new FlatRateRewardStrategy();
+
+        public void setAccountRewardStrategy(AccountRewardStrategy accountRewardStrategy) {
+            this.accountRewardStrategy = accountRewardStrategy;
+        }
 
         public Builder setCustomerId(long customerId) {
             this.customerId = customerId;
@@ -49,6 +54,7 @@ public abstract class Account implements Comparable<Account> {
     protected long accountId;
     protected BigDecimal interestRate;
     protected BigDecimal balance;
+    protected AccountRewardStrategy accountRewardStrategy;
 
     // M3 USING BUILDER
     public Account(Builder builder) {
@@ -56,6 +62,7 @@ public abstract class Account implements Comparable<Account> {
         this.accountId = builder.accountId;
         this.balance = roundToCurrency(builder.balance);
         this.interestRate = builder.interestRate;
+        this.accountRewardStrategy = builder.accountRewardStrategy;
     }
 
     public Account(long customerId, long accountId, BigDecimal balance, BigDecimal interestRate) {
@@ -127,6 +134,17 @@ public abstract class Account implements Comparable<Account> {
     public void setInterestRate(BigDecimal interestRate) {
         this.interestRate = interestRate;
     }
+
+    /**
+     * Return the potential reward amount related to the balance.
+     *
+     * @return potential reward amount.
+     */
+    // M3 USING STRATEGY
+    public BigDecimal getPotentialBalanceReward() {
+        return this.balance.multiply(accountRewardStrategy.getRewardRate(this));
+    }
+
 
     // Factory method
 

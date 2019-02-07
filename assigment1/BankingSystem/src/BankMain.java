@@ -28,6 +28,10 @@ public class BankMain {
         // Build a saving account
         SavingsAccount savingsAccount = savingAccountBuilder.build();
 
+        // Build another saving account with different reward strategy
+        savingAccountBuilder.setAccountId(31).setAccountRewardStrategy(new BalanceRewardStrategy());
+        SavingsAccount savingsAccount2 = savingAccountBuilder.build();
+
         // M3 USING BUILDER
         CDAccount.Builder cdBuilder = new CDAccount.Builder();
         cdBuilder.setCustomerId(2).setAccountId(4).setBalance(new BigDecimal("1000")).setInterestRate(new BigDecimal("0.05"));
@@ -111,17 +115,10 @@ public class BankMain {
 
         // M3 USING STRATEGY
         // Use strategy to determine the reward rate
-        System.out.println("Calculate possible reward amount of account #" + savingsAccount.getAccountId() + " balance=" + savingsAccount.getBalance());
-        System.out.println("\t1. Flat reward amount is " + getRewardAmount(savingsAccount, new FlatRateRewardStrategy()));
-        System.out.println("\t1. Balanced-based reward amount is " + getRewardAmount(savingsAccount, new BalanceRewardStrategy()));
-
+        System.out.println();
+        System.out.println("Default strategy: Calculate potential reward of transaction for account #" + savingsAccount.getAccountId() + " balance=" + savingsAccount.getBalance() + ", potential reward=" + savingsAccount.getPotentialBalanceReward());
+        System.out.println("Balance reward strategy: Calculate potential reward of transaction for account #" + savingsAccount2.getAccountId() + " balance=" + savingsAccount2.getBalance() + ", potential reward=" + savingsAccount2.getPotentialBalanceReward());
 
     }
-
-    private static BigDecimal getRewardAmount(Account account, AccountRewardStrategy strategy) {
-        // M3 USING STRATEGY
-        return account.getBalance().multiply(strategy.getRewardRate(account));
-    }
-
 
 }
