@@ -2,7 +2,7 @@ public class CheckingAccountFactory extends AccountFactory<CheckingAccount.Build
 
     @Override
     public CheckingAccount createAccount(CheckingAccount.Builder builder) {
-        return new CheckingAccount(builder);
+        return builder.build();
     }
 
 }

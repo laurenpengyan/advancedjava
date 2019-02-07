@@ -13,6 +13,10 @@ public class SavingsAccount extends Account {
 
         private int monthlyWithdrawalLimits;
 
+        public SavingsAccount build() {
+            return new SavingsAccount(this);
+        }
+
     }
 
     private int monthlyWithdrawalLimits;
@@ -36,7 +40,7 @@ public class SavingsAccount extends Account {
     }
 
     // M3 USING BUILDER
-    public SavingsAccount(Builder builder) {
+    private SavingsAccount(Builder builder) {
         super(builder);
         this.monthlyWithdrawalLimits = builder.monthlyWithdrawalLimits;
         this.currentMonthWithdrawalCount = 0;

@@ -11,12 +11,16 @@ public class CDAccount extends Account {
             this.defaultMaturityPeriodMonths = defaultMaturityPeriodMonths;
         }
 
+        public CDAccount build() {
+            return new CDAccount(this);
+        }
+
     }
 
 
     private int defaultMaturityPeriodMonths;
 
-    public CDAccount(Builder builder) {
+    private CDAccount(Builder builder) {
         super(builder);
         this.defaultMaturityPeriodMonths = builder.defaultMaturityPeriodMonths;
     }

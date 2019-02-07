@@ -26,13 +26,13 @@ public class BankMain {
 
         // M3 USING BUILDER
         // Build a saving account
-        SavingsAccount savingsAccount = new SavingsAccount(savingAccountBuilder);
+        SavingsAccount savingsAccount = savingAccountBuilder.build();
 
         // M3 USING BUILDER
         CDAccount.Builder cdBuilder = new CDAccount.Builder();
         cdBuilder.setCustomerId(2).setAccountId(4).setBalance(new BigDecimal("1000")).setInterestRate(new BigDecimal("0.05"));
         cdBuilder.setDefaultMaturityPeriodMonths(12);
-        CDAccount cdAccount = new CDAccount( cdBuilder );
+        CDAccount cdAccount = cdBuilder.build();
 
         // Using array list to hold the accounts
         List<Account> accounts = new ArrayList<>();

@@ -17,6 +17,11 @@ public class CheckingAccount extends Account {
             this.checkingAccountType = checkingAccountType;
         }
 
+        public CheckingAccount build() {
+            return new CheckingAccount(this);
+        }
+
+
     }
 
     private final CheckingAccountType checkingAccountType;
@@ -35,7 +40,7 @@ public class CheckingAccount extends Account {
 
     private BigDecimal overDraftFee;
 
-    public CheckingAccount(CheckingAccount.Builder builder) {
+    private CheckingAccount(CheckingAccount.Builder builder) {
         super(builder);
         this.checkingAccountType = builder.checkingAccountType;
         this.overDraftFee = builder.overDraftFee;
