@@ -6,17 +6,10 @@ import java.util.List;
 
 public class BankMain {
 
-    private static AccountFactory checkingAccountFactory = new CheckingAccountFactory();
-
     public static void main(String[] args) {
 
-        // M3 USING BUILDER
-        CheckingAccount.Builder checkingAccountBuilder = new CheckingAccount.Builder();
-        checkingAccountBuilder.setCustomerId(2).setAccountId(2).setBalance(new BigDecimal("200")).setInterestRate(new BigDecimal("0.01"));
-        checkingAccountBuilder.setOverDraftFee(new BigDecimal("35.0"));
-
         // M3 USING FACTORY
-        CheckingAccount checkingAccount = (CheckingAccount) checkingAccountFactory.createAccount(checkingAccountBuilder);
+        CheckingAccount checkingAccount = AccountFactory.createDefaultCheckingAccount(2, 2, new BigDecimal("200"));
 
         // M3 USING BUILDER
         // Direct SavingAccountBuilder how to build SavingAccount
@@ -118,6 +111,10 @@ public class BankMain {
         System.out.println();
         System.out.println("Default strategy: Calculate potential reward of transaction for account #" + savingsAccount.getAccountId() + " balance=" + savingsAccount.getBalance() + ", potential reward=" + savingsAccount.getPotentialBalanceReward());
         System.out.println("Balance reward strategy: Calculate potential reward of transaction for account #" + savingsAccount2.getAccountId() + " balance=" + savingsAccount2.getBalance() + ", potential reward=" + savingsAccount2.getPotentialBalanceReward());
+
+        // M3 USING FACTORY
+        LinkedAccount linkedSavingAccount = AccountFactory.createLinkedAccount(savingsAccount, savingsAccount2);
+        System.out.println("Linked account(#" + linkedSavingAccount.getPrimaryAccount().getAccountId() + ", #" + linkedSavingAccount.getSecondaryAccount().getAccountId() + "), balance=" + linkedSavingAccount.getBalance());
 
     }
 
