@@ -71,6 +71,7 @@ public class HiLowGameApp extends Application {
             public void handle(ActionEvent event) {
 
                 if (game.getStatus() == HiLowGame.GuessStatus.CORRECT) {
+
                     // Restart game
                     HiLowGameApp.this.newGame();
 
@@ -94,7 +95,7 @@ public class HiLowGameApp extends Application {
 
                     switch (guessResult) {
                         case CORRECT:
-                            textResults.setText("You win the game!");
+                            textResults.setText("Awesome, you win!");
                             btnAction.setText("New Game!");
                             break;
                         case TOO_LOW:
@@ -134,6 +135,8 @@ public class HiLowGameApp extends Application {
 
     private void newGame() {
         game.restart();
+
+        // Uncomment this line for test
         System.out.println("Target number is " + game.getCorrectNumber());
     }
 
