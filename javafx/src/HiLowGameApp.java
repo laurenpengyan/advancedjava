@@ -29,19 +29,19 @@ public class HiLowGameApp extends Application {
 
         newGame();
 
-        primaryStage.setTitle("High-low Game!");
+        primaryStage.setTitle("Welcome to Hi-Lo Game!");
 
         // Number Input field
-        TextField tfInputNumber = new TextField();
-        tfInputNumber.setPrefWidth(195);
+        TextField textFieldInputNumber = new TextField();
+        textFieldInputNumber.setPrefWidth(190);
 
         // force the field to be numeric only
-        tfInputNumber.textProperty().addListener(new ChangeListener<String>() {
+        textFieldInputNumber.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue,
                                 String newValue) {
                 if (!newValue.matches("\\d*")) {
-                    tfInputNumber.setText(newValue.replaceAll("[^\\d]", ""));
+                    textFieldInputNumber.setText(newValue.replaceAll("[^\\d]", ""));
                 }
             }
         });
@@ -57,12 +57,12 @@ public class HiLowGameApp extends Application {
         dsResult.setOffsetY(3.0f);
         dsResult.setColor(Color.color(0.4f, 0.4f, 0.4f));
 
-        Text ttResult = new Text();
-        ttResult.setEffect(dsResult);
-        ttResult.setText("New game, input number(1-100)!");
-        ttResult.setFont(Font.font ("Verdana", FontWeight.BOLD, 16));
+        Text textResults = new Text();
+        textResults.setEffect(dsResult);
+        textResults.setText("New game, input number(1-100)!");
+        textResults.setFont(Font.font ("Verdana", FontWeight.BOLD, 16));
 
-        ttResult.setFill(Color.GREEN);
+        textResults.setFill(Color.GREEN);
 
         // Event handlers
         btnAction.setOnAction(new EventHandler<ActionEvent>() {
@@ -74,19 +74,19 @@ public class HiLowGameApp extends Application {
                     // Restart game
                     HiLowGameApp.this.newGame();
 
-                    tfInputNumber.setText("");
+                    textFieldInputNumber.setText("");
                     btnAction.setText("Guess!");
-                    ttResult.setText("New game, input number(1-100)!");
+                    textResults.setText("New game, input number(1-100)!");
 
                 } else {
 
-                    if (tfInputNumber.getText().isEmpty()) {
-                        ttResult.setText("Enter number!");
+                    if (textFieldInputNumber.getText().isEmpty()) {
+                        textResults.setText("Enter number!");
                         return;
                     }
 
                     // Guess logic
-                    int inputNumber = Integer.valueOf(tfInputNumber.getText());
+                    int inputNumber = Integer.valueOf(textFieldInputNumber.getText());
                     HiLowGame.GuessStatus guessResult = game.guess(inputNumber);
 
                     // Debug
@@ -94,14 +94,14 @@ public class HiLowGameApp extends Application {
 
                     switch (guessResult) {
                         case CORRECT:
-                            ttResult.setText("You win the game!");
+                            textResults.setText("You win the game!");
                             btnAction.setText("New Game!");
                             break;
                         case TOO_LOW:
-                            ttResult.setText("The number is too low!");
+                            textResults.setText("The number is too low!");
                             break;
                         case TOO_HIGH:
-                            ttResult.setText("The number is too high!");
+                            textResults.setText("The number is too high!");
                             break;
                     }
 
@@ -117,12 +117,12 @@ public class HiLowGameApp extends Application {
         hboxInput.setSpacing(10);
         hboxInput.setStyle("-fx-background-color: #336699;");
 
-        hboxInput.getChildren().addAll(tfInputNumber, btnAction);
+        hboxInput.getChildren().addAll(textFieldInputNumber, btnAction);
 
         HBox hboxResult = new HBox();
         hboxResult.setPadding(new Insets(15, 12, 15, 12));
         hboxResult.setSpacing(10);
-        hboxResult.getChildren().add(ttResult);
+        hboxResult.getChildren().add(textResults);
 
         BorderPane root = new BorderPane();
         root.setTop(hboxInput);
