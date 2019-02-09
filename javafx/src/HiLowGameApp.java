@@ -1,7 +1,6 @@
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -152,11 +151,12 @@ public class HiLowGameApp extends Application {
 
         }
     }
+
     private void newGame() {
         game.restart();
 
         // Uncomment this line for test
-         System.out.println("Target number is " + game.getCorrectNumber());
+        // System.out.println("Target number is " + game.getCorrectNumber());
     }
 
 }
