@@ -134,7 +134,7 @@ public class HiLowGameApp extends Application {
                 case CORRECT:
                     textResults.setText("Awesome, you won!");
                     btnAction.setText("New Game!");
-                    break;
+                    return;
                 case TOO_LOW:
                     textResults.setText("The number is too low!");
                     break;
@@ -146,13 +146,17 @@ public class HiLowGameApp extends Application {
                     break;
             }
 
+            // Request focus if not won
+            textFieldInputNumber.requestFocus();
+            textFieldInputNumber.selectAll();
+
         }
     }
     private void newGame() {
         game.restart();
 
         // Uncomment this line for test
-        // System.out.println("Target number is " + game.getCorrectNumber());
+         System.out.println("Target number is " + game.getCorrectNumber());
     }
 
 }
