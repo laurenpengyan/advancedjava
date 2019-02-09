@@ -134,7 +134,7 @@ public class HiLowGameApp extends Application {
 
     private void newGame() {
         game.restart();
-        System.out.println("Target number is " + game.getTargetNumber());
+        System.out.println("Target number is " + game.getCorrectNumber());
     }
 
 }

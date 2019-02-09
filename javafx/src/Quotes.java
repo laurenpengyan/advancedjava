@@ -8,11 +8,12 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+
 import java.util.Random;
 
 public class Quotes extends Application {
 
-
+    // Quotes to be displayed
     private String quotes[] = {"All our dreams can come true, if we have the courage to pursue them.",
             "It does not matter how slowly you go as long as you do not stop.",
             "The future belongs to those who believe in the beauty of their dreams.",
@@ -20,94 +21,72 @@ public class Quotes extends Application {
             "Believe you can and you’re halfway there.",
             "Don’t wish it were easier. Wish you were better."};
 
-    //storing all the available font families to an array
-
+    // All available font names
     private String[] fonts = (String[]) Font.getFontNames().toArray();
 
-    //UI components
+    // UI Components
+    private Text textQuote;
+    private Button buttonChangeQuotes;
 
-    private Text text;
-
-    private Button button;
-
-    //random number generator
-
-    private Random random;
+    // Random generator
+    private Random random = new Random();
 
     @Override
-
     public void start(Stage primaryStage) {
 
-        //initializing everything
+        // Initialize UI Components
+        textQuote = new Text();
+        buttonChangeQuotes = new Button("Change Quotes");
 
-        text = new Text();
+        buttonChangeQuotes.setFont(new Font(null, 24));
 
-        button = new Button("Change Quotes");
+        // Add event listeners
+        buttonChangeQuotes.setOnAction(e -> changeQuotes());
 
-        //adding event listener to change button, to call the change() method
-
-        button.setOnAction(e -> change());
-
-        random = new Random();
-
-        //using a VBox to arrange elements
-
-        VBox root = new VBox(text, button);
-
-        //aligning center
+        // Define Layouts
+        VBox root = new VBox(textQuote, buttonChangeQuotes);
 
         root.setAlignment(Pos.CENTER);
+        root.setPadding(new Insets(32));
+        root.setSpacing(32);
 
-        //setting some padding
-
-        root.setPadding(new Insets(30));
-
-        //setting space between elements
-
-        root.setSpacing(30);
-
-        //creating and displaying scene
-
-        Scene scene = new Scene(root, 1000, 300);
-
-        primaryStage.setScene(scene);
-
+        // Setup scene and stage
         primaryStage.setTitle("My Favorite Quotes");
 
-        change(); //displaying quote initially
+        Scene scene = new Scene(root, 1200, 300);
+        primaryStage.setScene(scene);
+
+        // Display initial quotes
+        changeQuotes();
 
         primaryStage.show();
 
     }
 
-    //method to update the text with random quote in random font and color
+    /**
+     * Chagne the quote with both random quote text and style.
+     **/
+    public void changeQuotes() {
 
-    public void change() {
-
-        //choosing a random quote and fonts
-
+        // Choose a random quote and fonts and color
         String quote = quotes[random.nextInt(quotes.length)];
-
         String font = fonts[random.nextInt(fonts.length)];
+        Color color = new Color(random.nextDouble(), random.nextDouble(), random.nextDouble(), 1);
 
-        //creating a random color
-
-        Color color = new Color(random.nextDouble(),random.nextDouble(),random.nextDouble(),1.0);
-
-        //updating text with these attributes
-
-        text.setText(quote);
-
-        text.setFont(new Font(font, 20));
-
-        text.setFill(color);
+        // Update the display
+        textQuote.setText(quote);
+        textQuote.setFont(new Font(font, 24));
+        textQuote.setFill(color);
 
     }
 
+    /**
+     * Main entry point.
+     *
+     * @param args command-line args.
+     */
     public static void main(String[] args) {
-
         launch(args);
-
     }
 
 }
