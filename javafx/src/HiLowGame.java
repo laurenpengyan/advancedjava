@@ -4,7 +4,7 @@ public class HiLowGame {
 
     private static final int UPPER_RANGE = 100;
 
-    private int targetNumber;
+    private int correctNumber;
 
     private GuessStatus status = GuessStatus.NOT_STARTED;
 
@@ -17,19 +17,19 @@ public class HiLowGame {
     }
 
     public void restart() {
-        targetNumber = new Random().nextInt(UPPER_RANGE) + 1;
+        correctNumber = new Random().nextInt(UPPER_RANGE) + 1;
         status = GuessStatus.NOT_STARTED;
     }
 
-    public int getTargetNumber() {
-        return targetNumber;
+    public int getCorrectNumber() {
+        return correctNumber;
     }
 
     public GuessStatus guess(int inputNumber) {
 
-        if (targetNumber == inputNumber) {
+        if (correctNumber == inputNumber) {
             status = GuessStatus.CORRECT;
-        } else if (targetNumber < inputNumber) {
+        } else if (correctNumber < inputNumber) {
             status = GuessStatus.TOO_HIGH;
         } else {
             status = GuessStatus.TOO_LOW;
