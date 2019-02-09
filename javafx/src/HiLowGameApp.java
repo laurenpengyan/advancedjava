@@ -8,6 +8,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.DropShadow;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
@@ -18,11 +20,20 @@ import javafx.stage.Stage;
 
 public class HiLowGameApp extends Application {
 
+    private static final int MIN = 1;
+
+    private static final int MAX = 100;
+
     public static void main(String[] args) {
         launch(args);
     }
 
-    private HiLowGame game = new HiLowGame();
+    private HiLowGame game = new HiLowGame(MIN, MAX);
+
+    // UI Components
+    private TextField textFieldInputNumber = new TextField();
+    private Button btnAction = new Button();
+    private Text textResults = new Text();
 
     @Override
     public void start(Stage primaryStage) {
@@ -32,7 +43,6 @@ public class HiLowGameApp extends Application {
         primaryStage.setTitle("Welcome to Hi-Lo Game!");
 
         // Number Input field
-        TextField textFieldInputNumber = new TextField();
         textFieldInputNumber.setPrefWidth(190);
 
         // force the field to be numeric only
@@ -47,7 +57,6 @@ public class HiLowGameApp extends Application {
         });
 
         // Action button(guess or start a new game)
-        Button btnAction = new Button();
         btnAction.setText("Guess!");
 
         // Result area
@@ -57,59 +66,23 @@ public class HiLowGameApp extends Application {
         dsResult.setOffsetY(3.0f);
         dsResult.setColor(Color.color(0.4f, 0.4f, 0.4f));
 
-        Text textResults = new Text();
         textResults.setEffect(dsResult);
         textResults.setText("New game, input number(1-100)!");
-        textResults.setFont(Font.font ("Verdana", FontWeight.BOLD, 16));
+        textResults.setFont(Font.font("Verdana", FontWeight.BOLD, 16));
 
         textResults.setFill(Color.GREEN);
 
         // Event handlers
-        btnAction.setOnAction(new EventHandler<ActionEvent>() {
-
+        textFieldInputNumber.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
-            public void handle(ActionEvent event) {
-
-                if (game.getStatus() == HiLowGame.GuessStatus.CORRECT) {
-
-                    // Restart game
-                    HiLowGameApp.this.newGame();
-
-                    textFieldInputNumber.setText("");
-                    btnAction.setText("Guess!");
-                    textResults.setText("New game, input number(1-100)!");
-
-                } else {
-
-                    if (textFieldInputNumber.getText().isEmpty()) {
-                        textResults.setText("Enter number!");
-                        return;
-                    }
-
-                    // Guess logic
-                    int inputNumber = Integer.valueOf(textFieldInputNumber.getText());
-                    HiLowGame.GuessStatus guessResult = game.guess(inputNumber);
-
-                    // Debug
-                    System.out.println(inputNumber + ":" + guessResult);
-
-                    switch (guessResult) {
-                        case CORRECT:
-                            textResults.setText("Awesome, you win!");
-                            btnAction.setText("New Game!");
-                            break;
-                        case TOO_LOW:
-                            textResults.setText("The number is too low!");
-                            break;
-                        case TOO_HIGH:
-                            textResults.setText("The number is too high!");
-                            break;
-                    }
-
+            public void handle(KeyEvent ke) {
+                if (ke.getCode().equals(KeyCode.ENTER)) {
+                    handleAction();
                 }
             }
         });
 
+        btnAction.setOnAction(e -> handleAction());
 
         // Initialize layout
         HBox hboxInput = new HBox();
@@ -133,11 +106,53 @@ public class HiLowGameApp extends Application {
         primaryStage.show();
     }
 
+    private void handleAction() {
+        if (game.getStatus() == HiLowGame.GuessStatus.CORRECT) {
+
+            // Restart game
+            HiLowGameApp.this.newGame();
+
+            textFieldInputNumber.setText("");
+            btnAction.setText("Guess!");
+            textResults.setText("New game, input number(1-100)!");
+
+        } else {
+
+            if (textFieldInputNumber.getText().isEmpty()) {
+                textResults.setText("Enter number!");
+                return;
+            }
+
+            // Guess logic
+            int inputNumber = Integer.valueOf(textFieldInputNumber.getText());
+            HiLowGame.GuessStatus guessResult = game.guess(inputNumber);
+
+            // Debug
+            System.out.println(inputNumber + ":" + guessResult);
+
+            switch (guessResult) {
+                case CORRECT:
+                    textResults.setText("Awesome, you won!");
+                    btnAction.setText("New Game!");
+                    break;
+                case TOO_LOW:
+                    textResults.setText("The number is too low!");
+                    break;
+                case TOO_HIGH:
+                    textResults.setText("The number is too high!");
+                    break;
+                case OUT_OF_RANGE:
+                    textResults.setText("Please input between 1-100!");
+                    break;
+            }
+
+        }
+    }
     private void newGame() {
         game.restart();
 
         // Uncomment this line for test
-        System.out.println("Target number is " + game.getCorrectNumber());
+        // System.out.println("Target number is " + game.getCorrectNumber());
     }
 
 }
