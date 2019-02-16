@@ -13,7 +13,7 @@ public class AccountFactory {
     }
 
     // M3 Factory method to create a default checking account
-    public static CheckingAccount createDefaultCheckingAccount(int customerId, long accountId, BigDecimal balance){
+    public static CheckingAccount createDefaultCheckingAccount(int customerId, long accountId, BigDecimal balance) {
 
         CheckingAccount.Builder checkingAccountBuilder = new CheckingAccount.Builder();
 
@@ -24,6 +24,31 @@ public class AccountFactory {
         checkingAccountBuilder.setOverDraftFee(DEFAULT_CHECKING_OVERDRAFT_FEE);
 
         return checkingAccountBuilder.build();
+
+    }
+
+
+    // M3 USING BUILDER
+    public static SavingsAccount createDefaultSavingAccount(int customerId, long accountId, BigDecimal balance) {
+
+        SavingsAccount.Builder savingAccountBuilder = new SavingsAccount.Builder();
+        savingAccountBuilder.setCustomerId(customerId).setAccountId(accountId).setBalance(balance).setInterestRate(new BigDecimal("0.03"));
+        savingAccountBuilder.setMonthlyWithdrawalLimits(2);
+
+        return savingAccountBuilder.build();
+
+    }
+
+    // M3 USING BUILDER
+    public static CDAccount createCDAccount(int customerId, long accountId, BigDecimal balance) {
+
+        // M3 USING BUILDER
+        CDAccount.Builder cdAccountBuilder = new CDAccount.Builder();
+        cdAccountBuilder.setCustomerId(customerId).setAccountId(accountId).setBalance(balance).setInterestRate(new BigDecimal("0.05"));
+        cdAccountBuilder.setDefaultMaturityPeriodMonths(12);
+        CDAccount cdAccount = cdAccountBuilder.build();
+
+        return cdAccountBuilder.build();
 
     }
 
