@@ -40,7 +40,7 @@ public class AccountFactory {
     }
 
     // M3 USING BUILDER
-    public static CDAccount createCDAccount(int customerId, long accountId, BigDecimal balance) {
+    public static CDAccount createDefaultCDAccount(int customerId, long accountId, BigDecimal balance) {
 
         // M3 USING BUILDER
         CDAccount.Builder cdAccountBuilder = new CDAccount.Builder();

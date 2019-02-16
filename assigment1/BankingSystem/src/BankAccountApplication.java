@@ -1,4 +1,5 @@
 import javafx.application.Application;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 // M5 MVC Pattern
@@ -15,8 +16,6 @@ public class BankAccountApplication extends Application {
     @Override
     public void start(Stage primaryStage) {
 
-        initialize();
-
         // Initialize UI Components
         // Initialize Layouts
 
@@ -24,10 +23,11 @@ public class BankAccountApplication extends Application {
 
 
         // Setup scene and stage
-        primaryStage.setTitle("My Favorite Quotes");
+        primaryStage.setTitle("Bank Account System");
 
-//        Scene scene = new Scene(root, 1200, 300);
-//        primaryStage.setScene(scene);
+        // Scene scene = new Scene(view.getRoot(), 1200, 300);
+        Scene scene = new Scene(view.getRoot());
+        primaryStage.setScene(scene);
 
         primaryStage.show();
 
@@ -36,11 +36,19 @@ public class BankAccountApplication extends Application {
     /**
      * Initialize the model/view for initial loading.
      */
-    private void initialize() {
+    public void init() {
+
+        // M5 MVC Pattern
+        // Initialize Model/View/Controller
         model = new BankAccountModel();
         view = new BankAccountView();
-
         controller = new BankAccountController(model, view);
+        view.setController(controller);
+
+
+        // Set event handlers
+        view.setEventHandlers();
+
     }
 
     /**
