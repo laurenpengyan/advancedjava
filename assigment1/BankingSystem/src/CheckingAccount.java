@@ -63,6 +63,11 @@ public class CheckingAccount extends Account {
     }
 
     @Override
+    public String getAccountTypeId() {
+        return "Checking";
+    }
+
+    @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("CheckingAccount{");
         sb.append("overDraftFee=").append(overDraftFee);

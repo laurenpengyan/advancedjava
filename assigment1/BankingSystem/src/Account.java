@@ -72,6 +72,8 @@ public abstract class Account implements Comparable<Account> {
         this.interestRate = interestRate;
     }
 
+    public abstract String getAccountTypeId();
+
     public void deposit(BigDecimal depositAmount) {
 
         if (depositAmount.doubleValue() > 0) {

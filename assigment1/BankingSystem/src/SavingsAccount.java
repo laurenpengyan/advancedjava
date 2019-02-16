@@ -75,6 +75,11 @@ public class SavingsAccount extends Account {
     }
 
     @Override
+    public String getAccountTypeId() {
+        return "Savings";
+    }
+
+    @Override
     public void withdrawal(BigDecimal withdrawalAmount) {
 
         if (!isMontlyWithdrawalLimitReached()) {

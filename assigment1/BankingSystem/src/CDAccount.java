@@ -54,6 +54,11 @@ public class CDAccount extends Account {
 
 
     @Override
+    public String getAccountTypeId() {
+        return "CD";
+    }
+
+    @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("CDAccount{");
         sb.append("defaultMaturityPeriodMonths=").append(defaultMaturityPeriodMonths);
