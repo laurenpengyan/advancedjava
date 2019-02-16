@@ -9,42 +9,61 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 public class LightUpShape extends Application {
+
     private Rectangle rectangle;
+
     @Override
     public void start(Stage stage) throws Exception {
+
         Scene scene = new Scene(new Group(), 450, 250);
+
         rectangle = new Rectangle(200, 100);
         rectangle.setStroke(Color.PINK);
         rectangle.setFill(Color.TRANSPARENT);
+
         Group root = (Group) scene.getRoot();
         root.getChildren().add(rectangle);
-        scene.setOnMouseClicked(mouseClick);
-        scene.setOnMouseMoved(mouseMoving);
+        scene.setOnMouseClicked(mouseClickHandler);
+        scene.setOnMouseMoved(mouseMovedHandler);
         stage.setScene(scene);
         stage.setTitle("Draw Rectangle");
+
         stage.show();
+
     }
-    EventHandler<MouseEvent> mouseMoving = new EventHandler<MouseEvent>() {
+
+    private EventHandler<MouseEvent> mouseMovedHandler = new EventHandler<MouseEvent>() {
+
         @Override
         public void handle(MouseEvent mouseEvent) {
-            if(rectangle.contains(new Point2D(mouseEvent.getX(), mouseEvent.getY()))){
+            if (rectangle.contains(new Point2D(mouseEvent.getX(), mouseEvent.getY()))) {
                 rectangle.setFill(Color.SALMON);
-            }else{
+            } else {
                 rectangle.setFill(Color.TRANSPARENT);
                 rectangle.setVisible(true);
             }
         }
+
     };
-    EventHandler<MouseEvent> mouseClick = new EventHandler<MouseEvent>() {
+
+    private EventHandler<MouseEvent> mouseClickHandler = new EventHandler<MouseEvent>() {
+
         @Override
         public void handle(MouseEvent mouseEvent) {
-            if(rectangle.contains(new Point2D(mouseEvent.getX(), mouseEvent.getY()))){
+            if (rectangle.contains(new Point2D(mouseEvent.getX(), mouseEvent.getY()))) {
                 rectangle.setVisible(false);
-            }else{
+            } else {
                 rectangle.setFill(Color.TRANSPARENT);
             }
         }
+
     };
+
+    /**
+     * Application entry point.
+     *
+     * @param args command-line args.
+     */
     public static void main(String[] args) {
         launch(args);
     }
