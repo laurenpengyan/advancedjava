@@ -46,7 +46,6 @@ public class AccountFactory {
         CDAccount.Builder cdAccountBuilder = new CDAccount.Builder();
         cdAccountBuilder.setCustomerId(customerId).setAccountId(accountId).setBalance(balance).setInterestRate(new BigDecimal("0.05"));
         cdAccountBuilder.setDefaultMaturityPeriodMonths(12);
-        CDAccount cdAccount = cdAccountBuilder.build();
 
         return cdAccountBuilder.build();
 
