@@ -7,7 +7,7 @@ import javafx.scene.layout.VBox;
 // M5 MVC Pattern
 public class BankAccountView {
 
-    private final ChoiceBox choiceNewAccountType = new ChoiceBox(FXCollections.observableArrayList(
+    private final ChoiceBox<String> choiceNewAccountType = new ChoiceBox(FXCollections.observableArrayList(
             "Checking", "Savings", "CD")
     );
     private final TextField textCustomerId = new TextField();
@@ -33,7 +33,8 @@ public class BankAccountView {
         choiceNewAccountType.setValue("Checking");
 
         // Initialize layout
-        // TODO: Change URL
+        // TODO: Improve layout using https://www.callicoder.com/javafx-registration-form-gui-tutorial/
+        // TODO: https://docs.oracle.com/javafx/2/layout/builtin_layouts.htm
         root = new VBox();
 
         HBox hboxNewAccountType = new HBox(labelNewAccountType, choiceNewAccountType);
@@ -98,7 +99,7 @@ public class BankAccountView {
     private boolean validateInputForCreateNewAccount() {
 
         // TODO: Validate the values as well
-        if (!(choiceNewAccountType.getValue() instanceof String)) {
+        if (!choiceNewAccountType.getValue().isEmpty()) {
             showStatus(Alert.AlertType.ERROR, "Please choose account type!");
             return false;
         }
