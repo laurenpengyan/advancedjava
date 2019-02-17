@@ -26,7 +26,7 @@ public class BankAccountController {
         List<String> result = new ArrayList<>();
 
         for (Account account : model.getAccountList()) {
-            result.add("Account #" + account.getAccountId() + "(" + account.getAccountTypeId() + ") - Balance $" + account.getBalance());
+            result.add("Account #" + account.getAccountId() + " - " + account.getAccountTypeId());
         }
 
         return result;
@@ -82,6 +82,22 @@ public class BankAccountController {
         } catch (NumberFormatException nfe) {
             throw new BankAccountException("Invalid number format!", nfe);
         }
+    }
+
+    public void showAccountDetail() throws BankAccountException {
+        // M5 MVC Pattern
+        // Get values from view
+
+        int accountIndex = view.getChoiceOverviewAccount().getSelectionModel().getSelectedIndex();
+
+        if (accountIndex < 0 || accountIndex > model.getAccountList().size() - 1) {
+            throw new BankAccountException("No account selected!");
+        }
+
+        Account account = model.getAccountList().get(accountIndex);
+
+        view.showAccountDetailDialog(account.getAccountId(), account.getAccountTypeId(), account.getBalance(), "");
+
     }
 
 

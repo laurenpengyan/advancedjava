@@ -2,9 +2,15 @@ import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+
+import java.math.BigDecimal;
 
 // M5 MVC Pattern
 public class BankAccountView {
@@ -34,9 +40,6 @@ public class BankAccountView {
     // For account overview feature
     // UI fields
     private Label labelOviewAccount = new Label("Account");
-    // Label
-    private Label labelOverviewCurrentBalance = new Label("Current Balance");
-    private Label labelOverviewCurrentBalanceValue = new Label();
 
     // Buttons
     private Button buttonOverviewDetail = new Button("Show Detail");
@@ -46,6 +49,29 @@ public class BankAccountView {
 
 
     public BankAccountView() {
+
+    }
+
+    public void showAccountDetailDialog(long accountId, String accountType, BigDecimal balance, String otherDetail) {
+        Stage dialog = new Stage();
+
+        dialog.initModality(Modality.APPLICATION_MODAL);
+        dialog.initOwner(null);
+
+        VBox dialogVbox = new VBox(4);
+
+        dialogVbox.setPadding(new Insets(5, 5, 5, 5));
+
+        dialogVbox.getChildren().add(new Text("Account #" + accountId + ", type=" + accountType));
+        dialogVbox.getChildren().add(new Text("Balance: $" + balance));
+
+        if (otherDetail != null && !otherDetail.isEmpty()) {
+            dialogVbox.getChildren().add(new Text("\t" + otherDetail));
+        }
+
+        Scene dialogScene = new Scene(dialogVbox);
+        dialog.setScene(dialogScene);
+        dialog.show();
 
     }
 
@@ -83,9 +109,6 @@ public class BankAccountView {
         contentGridPane.setPadding(new Insets(5, 5, 5, 5));
         contentGridPane.add(labelOviewAccount, 0, 0);
         contentGridPane.add(choiceOverviewAccount, 1, 0);
-        contentGridPane.add(labelOverviewCurrentBalance, 0, 1);
-        contentGridPane.add(labelOverviewCurrentBalanceValue, 1, 1);
-        contentGridPane.add(labelAccountId, 0, 2);
 
         // Define the button panel
         HBox hboxButtonPanel = new HBox(buttonOverviewDetail, buttonOverviewWithdraw);
@@ -225,6 +248,8 @@ public class BankAccountView {
         // Reset UI using controller
         buttonResetCreateNewAccount.setOnAction(e -> resetCreateNewAccountHandler());
 
+        buttonOverviewDetail.setOnAction(e -> showAccountDetailHandler());
+
     }
 
     private void createNewAccountHandler() {
@@ -232,9 +257,9 @@ public class BankAccountView {
         if (validateInputForCreateNewAccount()) {
             try {
                 controller.createNewAccount();
-                showStatus(Alert.AlertType.INFORMATION, "New account created!");
+                showNewAccountStatus(Alert.AlertType.INFORMATION, "New account created!");
             } catch (BankAccountException bae) {
-                showStatus(Alert.AlertType.ERROR, bae.getMessage());
+                showNewAccountStatus(Alert.AlertType.ERROR, bae.getMessage());
             }
 
         }
@@ -244,21 +269,21 @@ public class BankAccountView {
 
         // TODO: Validate the values as well
         if (choiceNewAccountType.getValue().isEmpty()) {
-            showStatus(Alert.AlertType.ERROR, "Please choose account type!");
+            showNewAccountStatus(Alert.AlertType.ERROR, "Please choose account type!");
             return false;
         }
         if (textCustomerId.getText().isEmpty()) {
-            showStatus(Alert.AlertType.ERROR, "Please enter customer id!");
+            showNewAccountStatus(Alert.AlertType.ERROR, "Please enter customer id!");
             return false;
         }
 
         if (textAccountId.getText().isEmpty()) {
-            showStatus(Alert.AlertType.ERROR, "Please enter account id!");
+            showNewAccountStatus(Alert.AlertType.ERROR, "Please enter account id!");
             return false;
         }
 
         if (textInitialBalance.getText().isEmpty()) {
-            showStatus(Alert.AlertType.ERROR, "Please enter initial balance!");
+            showNewAccountStatus(Alert.AlertType.ERROR, "Please enter initial balance!");
             return false;
         }
 
@@ -272,9 +297,22 @@ public class BankAccountView {
         this.textInitialBalance.setText("");
     }
 
-    private void showStatus(Alert.AlertType alertType, String message) {
+    private void showAccountDetailHandler() {
+        try {
+            controller.showAccountDetail();
+        } catch (BankAccountException bae) {
+            showOviewStatus(Alert.AlertType.ERROR, bae.getMessage());
+        }
+    }
+
+    private void showNewAccountStatus(Alert.AlertType alertType, String message) {
         // TODO: Change background when alert type is ERROR/WARNING/INFO
         this.labelNewAccountStatus.setText(message);
+    }
+
+    private void showOviewStatus(Alert.AlertType alertType, String message) {
+        // TODO: Change background when alert type is ERROR/WARNING/INFO
+        this.labelOverviewStatus.setText(message);
     }
 
 
