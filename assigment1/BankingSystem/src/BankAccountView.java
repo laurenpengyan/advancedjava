@@ -63,7 +63,7 @@ public class BankAccountView {
 
         dialogVbox.setPadding(new Insets(5, 5, 5, 5));
 
-        dialogVbox.getChildren().add(new Text("Account #" + accountId +"- (" + accountType +")"));
+        dialogVbox.getChildren().add(new Text("Account #" + accountId + "- (" + accountType + ")"));
         dialogVbox.getChildren().add(new Text("\tcustomerId: " + customerId));
         dialogVbox.getChildren().add(new Text("\tbalance: $" + balance));
 
@@ -339,23 +339,25 @@ public class BankAccountView {
     }
 
     private void showNewAccountStatus(Alert.AlertType alertType, String message) {
-        // TODO: Change background when alert type is ERROR/WARNING/INFO
-        this.labelNewAccountStatus.setText(message);
+        showStatus(alertType, this.labelNewAccountStatus, message);
     }
 
     private void showOviewStatus(Alert.AlertType alertType, String message) {
-        // TODO: Change background when alert type is ERROR/WARNING/INFO
-        this.labelOverviewStatus.setText(message);
+        showStatus(alertType, this.labelOverviewStatus, message);
     }
 
+    private void showStatus(Alert.AlertType alertType, Label labelStatus, String message) {
+        labelStatus.setText(message);
 
-    private void showAlert(Alert.AlertType alertType, String title, String message) {
-        Alert alert = new Alert(alertType);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.initOwner(null);
-        alert.show();
+        if (Alert.AlertType.ERROR == alertType) {
+            labelStatus.setTextFill(Color.RED);
+        } else if (alertType == Alert.AlertType.INFORMATION) {
+            labelStatus.setTextFill(Color.GREEN);
+        } else if (alertType == Alert.AlertType.WARNING) {
+            labelStatus.setTextFill(Color.ORANGE);
+        } else {
+            labelStatus.setTextFill(Color.BLACK);
+        }
     }
 
     public Parent getRoot() {
