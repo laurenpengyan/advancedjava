@@ -40,6 +40,9 @@ public class BankAccountController {
     }
 
 
+    // M5 MVC Pattern
+    // M5 create the objects (using the classes of the model) using the data entered by the user (via the view)
+    // M5 Create new account
     public void createNewAccount() throws BankAccountException {
         // M5 MVC Pattern
         // Get values from view
@@ -52,6 +55,12 @@ public class BankAccountController {
             if (initialBalance.compareTo(BigDecimal.ZERO) > 0) {
                 // Handle exception when accountId is already exists
                 model.createNewAccount(accountType, customerId, accountId, initialBalance);
+
+                // M5 MVC Pattern
+                // M5 display/process the objects when necessary and return the output to the view
+                // M5 Refresh account list after creating new account
+                this.refreshOverviewList();
+
             } else {
                 throw new BankAccountException("Initial balance is required!");
             }
@@ -80,6 +89,9 @@ public class BankAccountController {
         }
     }
 
+    // M5 MVC Pattern
+    // M5 define the methods that will respond to the button clicks of the view
+    // M5 show the account detail
     public void showAccountDetail() throws BankAccountException {
         // M5 MVC Pattern
         // Get values from view

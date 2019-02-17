@@ -14,10 +14,15 @@ import java.math.BigDecimal;
 import java.util.Optional;
 
 // M5 MVC Pattern
+// M5: allow the user to enter information required to create an object
+// Enter basic information to create new account
 public class BankAccountView {
 
     // For new account feature
     // UI fields
+    // M5 MVC Pattern
+    // M5 use at least one control that is different from a TextField (e.g., a radio button, check box, combo box, etc.)
+    // M5 Use ChoiceBox
     private final ChoiceBox<String> choiceNewAccountType = new ChoiceBox(FXCollections.observableArrayList(
             "Checking", "Savings", "CD")
     );
@@ -207,9 +212,7 @@ public class BankAccountView {
     private void initUIComponents() {
         choiceNewAccountType.getSelectionModel().selectFirst();
 
-
         controller.refreshOverviewList();
-
 
         choiceOverviewAccount.setMinWidth(185);
     }
@@ -249,8 +252,14 @@ public class BankAccountView {
         // Reset UI using controller
         buttonResetCreateNewAccount.setOnAction(e -> resetCreateNewAccountHandler());
 
+        // M5 MVC Pattern
+        // M5 have a button to display information about the object
+        // M5 Show detail of the selected account
         buttonOverviewDetail.setOnAction(e -> showAccountDetailHandler());
 
+        // M5 have a button to display information about the object
+        // M5 have a button to display the results of "processing" an object (or a collection of objects)
+        // M5 The withdraw result(successful or failure) will be displayed in the status bar
         buttonOverviewWithdraw.setOnAction(e -> withdrawAccountHandler());
 
     }
@@ -261,8 +270,6 @@ public class BankAccountView {
             try {
                 controller.createNewAccount();
                 showNewAccountStatus(Alert.AlertType.INFORMATION, "New account created!");
-
-                controller.refreshOverviewList();
             } catch (BankAccountException bae) {
                 showNewAccountStatus(Alert.AlertType.ERROR, bae.getMessage());
             }
