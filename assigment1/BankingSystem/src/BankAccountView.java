@@ -11,6 +11,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.math.BigDecimal;
+import java.util.Optional;
 
 // M5 MVC Pattern
 public class BankAccountView {
@@ -52,7 +53,7 @@ public class BankAccountView {
 
     }
 
-    public void showAccountDetailDialog(long accountId, String accountType, BigDecimal balance, String otherDetail) {
+    public void showAccountDetailDialog(long accountId, String accountType, long customerId, BigDecimal balance, String otherDetail) {
         Stage dialog = new Stage();
 
         dialog.initModality(Modality.APPLICATION_MODAL);
@@ -62,8 +63,9 @@ public class BankAccountView {
 
         dialogVbox.setPadding(new Insets(5, 5, 5, 5));
 
-        dialogVbox.getChildren().add(new Text("Account #" + accountId + ", type=" + accountType));
-        dialogVbox.getChildren().add(new Text("Balance: $" + balance));
+        dialogVbox.getChildren().add(new Text("Account #" + accountId +"- (" + accountType +")"));
+        dialogVbox.getChildren().add(new Text("\tcustomerId: " + customerId));
+        dialogVbox.getChildren().add(new Text("\tbalance: $" + balance));
 
         if (otherDetail != null && !otherDetail.isEmpty()) {
             dialogVbox.getChildren().add(new Text("\t" + otherDetail));
@@ -203,12 +205,11 @@ public class BankAccountView {
      * The place to initialize UI components
      */
     private void initUIComponents() {
-//        choiceNewAccountType.setValue("Checking");
         choiceNewAccountType.getSelectionModel().selectFirst();
 
 
-        choiceOverviewAccount.setItems(FXCollections.observableArrayList(controller.getOverviewList()));
-        choiceOverviewAccount.getSelectionModel().selectFirst();
+        controller.refreshOverviewList();
+
 
         choiceOverviewAccount.setMinWidth(185);
     }
@@ -250,6 +251,8 @@ public class BankAccountView {
 
         buttonOverviewDetail.setOnAction(e -> showAccountDetailHandler());
 
+        buttonOverviewWithdraw.setOnAction(e -> withdrawAccountHandler());
+
     }
 
     private void createNewAccountHandler() {
@@ -258,6 +261,8 @@ public class BankAccountView {
             try {
                 controller.createNewAccount();
                 showNewAccountStatus(Alert.AlertType.INFORMATION, "New account created!");
+
+                controller.refreshOverviewList();
             } catch (BankAccountException bae) {
                 showNewAccountStatus(Alert.AlertType.ERROR, bae.getMessage());
             }
@@ -291,7 +296,7 @@ public class BankAccountView {
     }
 
     private void resetCreateNewAccountHandler() {
-        this.choiceNewAccountType.setId("Checking");
+        this.choiceNewAccountType.getSelectionModel().selectFirst();
         this.textCustomerId.setText("");
         this.textAccountId.setText("");
         this.textInitialBalance.setText("");
@@ -302,6 +307,34 @@ public class BankAccountView {
             controller.showAccountDetail();
         } catch (BankAccountException bae) {
             showOviewStatus(Alert.AlertType.ERROR, bae.getMessage());
+        }
+    }
+
+    private void withdrawAccountHandler() {
+
+        if (choiceOverviewAccount.getSelectionModel().isEmpty()) {
+            showOviewStatus(Alert.AlertType.ERROR, "Account is required!");
+            return;
+        }
+
+        TextInputDialog dialog = new TextInputDialog("");
+
+        dialog.setTitle("Withdraw");
+        dialog.setHeaderText(choiceOverviewAccount.getSelectionModel().getSelectedItem());
+        dialog.setContentText("Withdraw amount:");
+
+        Optional<String> result = dialog.showAndWait();
+
+        if (result.isPresent()) {
+            try {
+                controller.withdraw(result.get());
+                showOviewStatus(Alert.AlertType.INFORMATION, "Transaction completed!");
+
+            } catch (BankAccountException bae) {
+                showOviewStatus(Alert.AlertType.ERROR, bae.getMessage());
+            }
+        } else {
+            showOviewStatus(Alert.AlertType.INFORMATION, "No input, withdraw cancelled!");
         }
     }
 

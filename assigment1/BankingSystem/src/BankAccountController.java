@@ -1,4 +1,6 @@
 
+import javafx.collections.FXCollections;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +24,12 @@ public class BankAccountController {
         return model;
     }
 
-    public List<String> getOverviewList() {
+    public void refreshOverviewList() {
+        view.getChoiceOverviewAccount().setItems(FXCollections.observableList(getOverviewList()));
+        view.getChoiceOverviewAccount().getSelectionModel().selectFirst();
+    }
+
+    private List<String> getOverviewList() {
         List<String> result = new ArrayList<>();
 
         for (Account account : model.getAccountList()) {
@@ -32,17 +39,6 @@ public class BankAccountController {
         return result;
     }
 
-    public BigDecimal getTotalBalance() {
-
-        BigDecimal result = BigDecimal.ZERO;
-
-        for (Account account : model.getAccountList()) {
-            result = result.add(account.getBalance());
-        }
-
-        return result;
-
-    }
 
     public void createNewAccount() throws BankAccountException {
         // M5 MVC Pattern
@@ -96,7 +92,7 @@ public class BankAccountController {
 
         Account account = model.getAccountList().get(accountIndex);
 
-        view.showAccountDetailDialog(account.getAccountId(), account.getAccountTypeId(), account.getBalance(), "");
+        view.showAccountDetailDialog(account.getAccountId(), account.getAccountTypeId(), account.getCustomerId(), account.getBalance(), "");
 
     }
 
