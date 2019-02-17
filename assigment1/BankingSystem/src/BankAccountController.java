@@ -1,4 +1,7 @@
+
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 // M5 MVC Pattern
 public class BankAccountController {
@@ -19,29 +22,66 @@ public class BankAccountController {
         return model;
     }
 
-    public void createNewAccount() {
-        // M5 MVC Pattern
-        // Get values from view
-        // TODO: Validation first
-        String accountType = (String) view.getChoiceNewAccountType().getValue();
-        int customerId = Integer.parseInt(view.getTextCustomerId().getText());
-        long accountId = Long.parseLong(view.getTextAccountId().getText());
-        BigDecimal initialBalance = new BigDecimal(view.getTextInitialBalance().getText());
+    public List<String> getOverviewList() {
+        List<String> result = new ArrayList<>();
 
-        // Handle exception when accountId is already exists
-        model.createNewAccount(accountType, customerId, accountId, initialBalance);
+        for (Account account : model.getAccountList()) {
+            result.add("Account #" + account.getAccountId() + "(" + account.getAccountTypeId() + ") - Balance $" + account.getBalance());
+        }
+
+        return result;
     }
 
-    public void resetNewAccount() {
+    public BigDecimal getTotalBalance() {
+
+        BigDecimal result = BigDecimal.ZERO;
+
+        for (Account account : model.getAccountList()) {
+            result = result.add(account.getBalance());
+        }
+
+        return result;
+
+    }
+
+    public void createNewAccount() throws BankAccountException {
         // M5 MVC Pattern
         // Get values from view
-        // TODO: Validation
-        String accountType = (String) view.getChoiceNewAccountType().getValue();
-        int customerId = Integer.parseInt(view.getTextCustomerId().getText());
-        long accountId = Long.parseLong(view.getTextAccountId().getText());
-        BigDecimal initialBalance = new BigDecimal(view.getTextInitialBalance().getText());
+        try {
+            String accountType = (String) view.getChoiceNewAccountType().getValue();
+            int customerId = Integer.parseInt(view.getTextCustomerId().getText());
+            long accountId = Long.parseLong(view.getTextAccountId().getText());
+            BigDecimal initialBalance = new BigDecimal(view.getTextInitialBalance().getText());
 
-        model.createNewAccount(accountType, customerId, accountId, initialBalance);
+            if (initialBalance.compareTo(BigDecimal.ZERO) > 0) {
+                // Handle exception when accountId is already exists
+                model.createNewAccount(accountType, customerId, accountId, initialBalance);
+            } else {
+                throw new BankAccountException("Initial balance is required!");
+            }
+
+        } catch (NumberFormatException nfe) {
+            throw new BankAccountException("Invalid number format!", nfe);
+        }
+    }
+
+    public void withdraw(String inputAmount) throws BankAccountException {
+        // M5 MVC Pattern
+        // Get values from view
+        try {
+            int accountIndex = view.getChoiceOverviewAccount().getSelectionModel().getSelectedIndex();
+
+            if (accountIndex < 0 || accountIndex > model.getAccountList().size() - 1) {
+                throw new BankAccountException("No account selected!");
+            }
+
+            Account account = model.getAccountList().get(accountIndex);
+            BigDecimal amount = new BigDecimal(inputAmount);
+
+            model.withdraw(account, amount);
+        } catch (NumberFormatException nfe) {
+            throw new BankAccountException("Invalid number format!", nfe);
+        }
     }
 
 

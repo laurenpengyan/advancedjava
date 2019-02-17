@@ -16,16 +16,9 @@ public class BankAccountApplication extends Application {
     @Override
     public void start(Stage primaryStage) {
 
-        // Initialize UI Components
-        // Initialize Layouts
-
-        // Add event listeners
-
-
         // Setup scene and stage
         primaryStage.setTitle("Bank Account System");
 
-        // Scene scene = new Scene(view.getRoot(), 1200, 300);
         Scene scene = new Scene(view.getRoot());
         primaryStage.setScene(scene);
 
@@ -40,14 +33,13 @@ public class BankAccountApplication extends Application {
 
         // M5 MVC Pattern
         // Initialize Model/View/Controller
-        model = new BankAccountModel();
+        model = new BankAccountModel(true);
         view = new BankAccountView();
         controller = new BankAccountController(model, view);
         view.setController(controller);
 
-
-        // Set event handlers
-        view.setEventHandlers();
+        // Initialize view
+        view.init();
 
     }
 

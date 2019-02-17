@@ -1,59 +1,193 @@
 import javafx.collections.FXCollections;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 
 // M5 MVC Pattern
 public class BankAccountView {
 
+    // For new account feature
+    // UI fields
     private final ChoiceBox<String> choiceNewAccountType = new ChoiceBox(FXCollections.observableArrayList(
             "Checking", "Savings", "CD")
     );
+    private final ChoiceBox<String> choiceOverviewAccount = new ChoiceBox();
+    // M5 MVC Pattern
+    private Parent root;
     private final TextField textCustomerId = new TextField();
     private final TextField textAccountId = new TextField();
     private final TextField textInitialBalance = new TextField();
+    // Controller
     private BankAccountController controller;
-    private Parent root;
-    // Create new account panel
-    private Label labelNewAccountType = new Label("New Account Type");
     private Label labelCustomerId = new Label("Customer Id");
     private Label labelAccountId = new Label("Account Id");
     private Label labelInitialBalance = new Label("Initial Balance");
-    private Button buttonCreateNewAccount = new Button("Create");
+    // Label
+    private Label labelNewAccountType = new Label("New Account Type");
+    private Label labelNewAccountStatus = new Label("");
     private Button buttonResetCreateNewAccount = new Button("Reset");
+    // Buttons
+    private Button buttonCreateNewAccount = new Button("Create");
+    // For account overview feature
+    // UI fields
+    private Label labelOviewAccount = new Label("Account");
+    // Label
+    private Label labelOverviewCurrentBalance = new Label("Current Balance");
+    private Label labelOverviewCurrentBalanceValue = new Label();
 
-    private Label labelMewAccountStatusText = new Label("Status");
-    private Label labelNewAccountStatusContent = new Label("");
+    // Buttons
+    private Button buttonOverviewDetail = new Button("Show Detail");
+    private Button buttonOverviewWithdraw = new Button("Withdraw");
+
+    private Label labelOverviewStatus = new Label("");
 
 
     public BankAccountView() {
 
+    }
+
+    public void init() {
         // Initialize UI Components
-        choiceNewAccountType.setValue("Checking");
+        initUIComponents();
+
+        setEventHandlers();
 
         // Initialize layout
         // TODO: Improve layout using https://www.callicoder.com/javafx-registration-form-gui-tutorial/
         // TODO: https://docs.oracle.com/javafx/2/layout/builtin_layouts.htm
+        // TODO: Add titlePane: https://docs.oracle.com/javafx/2/ui_controls/accordion-titledpane.htm
+
+        Parent overviewPane = createOverviewPane();
+        Parent newAccountPane = createNewAccountPane();
+
+        // Set root level pane
         root = new VBox();
+        ((VBox) root).getChildren().addAll(overviewPane, newAccountPane);
 
-        HBox hboxNewAccountType = new HBox(labelNewAccountType, choiceNewAccountType);
-        hboxNewAccountType.setSpacing(12);
+    }
 
-        HBox hboxCustommerId = new HBox(labelCustomerId, textCustomerId);
+    private Parent createOverviewPane() {
 
-        HBox hboxAccountId = new HBox(labelAccountId, textAccountId);
+        TitledPane titledPane = createDefaultTitledPane("Account Overview");
 
-        HBox hboxInitialBalance = new HBox(labelInitialBalance, textInitialBalance);
+        VBox contentPane = new VBox();
 
-        HBox hboxCreateNewButtonPanel = new HBox(buttonCreateNewAccount, buttonResetCreateNewAccount);
-        hboxCreateNewButtonPanel.setSpacing(12);
+        // Define content pane
+        GridPane contentGridPane = new GridPane();
 
-        HBox hboxCreateNewAccountStatus = new HBox(labelMewAccountStatusText, labelNewAccountStatusContent);
-        hboxCreateNewAccountStatus.setSpacing(16);
+        contentGridPane.setVgap(4);
+        contentGridPane.setHgap(4);
+        contentGridPane.setPadding(new Insets(5, 5, 5, 5));
+        contentGridPane.add(labelOviewAccount, 0, 0);
+        contentGridPane.add(choiceOverviewAccount, 1, 0);
+        contentGridPane.add(labelOverviewCurrentBalance, 0, 1);
+        contentGridPane.add(labelOverviewCurrentBalanceValue, 1, 1);
+        contentGridPane.add(labelAccountId, 0, 2);
 
-        ((VBox) root).getChildren().addAll(hboxNewAccountType, hboxCustommerId, hboxAccountId, hboxInitialBalance, hboxCreateNewButtonPanel, hboxCreateNewAccountStatus);
+        // Define the button panel
+        HBox hboxButtonPanel = new HBox(buttonOverviewDetail, buttonOverviewWithdraw);
+        hboxButtonPanel.setSpacing(6);
+        hboxButtonPanel.setPadding(new Insets(5, 5, 5, 5));
+        hboxButtonPanel.setAlignment(Pos.CENTER_RIGHT);
 
+        // Define the status panel
+        HBox hboxStatusPanel = new HBox(labelOverviewStatus);
+        hboxStatusPanel.setPadding(new Insets(0, 0, 0, 0));
+        hboxStatusPanel.setSpacing(0);
+        hboxStatusPanel.setBorder(new Border(new BorderStroke(Color.LIGHTSLATEGRAY, BorderStrokeStyle.DASHED, null, new BorderWidths(1))));
+
+        // Add components to content pane
+        contentPane.getChildren().add(contentGridPane);
+        contentPane.getChildren().add(hboxButtonPanel);
+        contentPane.getChildren().add(hboxStatusPanel);
+
+        // Add content pane
+        titledPane.setContent(contentPane);
+
+        return titledPane;
+
+    }
+
+    public Label getLabelNewAccountStatus() {
+        return labelNewAccountStatus;
+    }
+
+    public Label getLabelOverviewStatus() {
+        return labelOverviewStatus;
+    }
+
+    private Parent createNewAccountPane() {
+
+        TitledPane titledPane = createDefaultTitledPane("Create New Account");
+
+        VBox contentPane = new VBox();
+
+        // Define content pane
+        GridPane contentGridPane = new GridPane();
+
+        contentGridPane.setVgap(4);
+        contentGridPane.setHgap(4);
+        contentGridPane.setPadding(new Insets(5, 5, 5, 5));
+        contentGridPane.add(labelNewAccountType, 0, 0);
+        contentGridPane.add(choiceNewAccountType, 1, 0);
+        contentGridPane.add(labelCustomerId, 0, 1);
+        contentGridPane.add(textCustomerId, 1, 1);
+        contentGridPane.add(labelAccountId, 0, 2);
+        contentGridPane.add(textAccountId, 1, 2);
+        contentGridPane.add(labelInitialBalance, 0, 3);
+        contentGridPane.add(textInitialBalance, 1, 3);
+
+        // Define the button panel
+        HBox hboxButtonPanel = new HBox(buttonCreateNewAccount, buttonResetCreateNewAccount);
+        hboxButtonPanel.setSpacing(6);
+        hboxButtonPanel.setPadding(new Insets(5, 5, 5, 5));
+        hboxButtonPanel.setAlignment(Pos.CENTER_RIGHT);
+
+        // Define the status panel
+        HBox hboxStatusPanel = new HBox(labelNewAccountStatus);
+        hboxStatusPanel.setPadding(new Insets(0, 0, 0, 0));
+        hboxStatusPanel.setSpacing(0);
+        hboxStatusPanel.setBorder(new Border(new BorderStroke(Color.LIGHTSLATEGRAY, BorderStrokeStyle.DASHED, null, new BorderWidths(1))));
+
+        // Add components to content pane
+        contentPane.getChildren().add(contentGridPane);
+        contentPane.getChildren().add(hboxButtonPanel);
+        contentPane.getChildren().add(hboxStatusPanel);
+
+        // Add content pane
+        titledPane.setContent(contentPane);
+
+        return titledPane;
+
+    }
+
+
+    private TitledPane createDefaultTitledPane(String title) {
+        TitledPane titledPane = new TitledPane();
+
+        titledPane.setAnimated(false);
+        titledPane.setCollapsible(true);
+
+        titledPane.setText(title);
+
+        return titledPane;
+    }
+
+    /**
+     * The place to initialize UI components
+     */
+    private void initUIComponents() {
+//        choiceNewAccountType.setValue("Checking");
+        choiceNewAccountType.getSelectionModel().selectFirst();
+
+
+        choiceOverviewAccount.setItems(FXCollections.observableArrayList(controller.getOverviewList()));
+        choiceOverviewAccount.getSelectionModel().selectFirst();
+
+        choiceOverviewAccount.setMinWidth(185);
     }
 
     public void setController(BankAccountController controller) {
@@ -66,6 +200,10 @@ public class BankAccountView {
 
     public TextField getTextCustomerId() {
         return textCustomerId;
+    }
+
+    public ChoiceBox<String> getChoiceOverviewAccount() {
+        return choiceOverviewAccount;
     }
 
     public TextField getTextAccountId() {
@@ -81,25 +219,31 @@ public class BankAccountView {
 
         // M5 MVC Pattern
         // Call controller to create object using current values in view
-        buttonCreateNewAccount.setOnAction(e -> createNewAccount());
+        buttonCreateNewAccount.setOnAction(e -> createNewAccountHandler());
 
         // M5 MVC Pattern
         // Reset UI using controller
-        buttonResetCreateNewAccount.setOnAction(e -> resetCreateNewAccount());
+        buttonResetCreateNewAccount.setOnAction(e -> resetCreateNewAccountHandler());
 
     }
 
-    private void createNewAccount() {
+    private void createNewAccountHandler() {
         // Validate input for create new account
         if (validateInputForCreateNewAccount()) {
-            controller.createNewAccount();
+            try {
+                controller.createNewAccount();
+                showStatus(Alert.AlertType.INFORMATION, "New account created!");
+            } catch (BankAccountException bae) {
+                showStatus(Alert.AlertType.ERROR, bae.getMessage());
+            }
+
         }
     }
 
     private boolean validateInputForCreateNewAccount() {
 
         // TODO: Validate the values as well
-        if (!choiceNewAccountType.getValue().isEmpty()) {
+        if (choiceNewAccountType.getValue().isEmpty()) {
             showStatus(Alert.AlertType.ERROR, "Please choose account type!");
             return false;
         }
@@ -121,7 +265,7 @@ public class BankAccountView {
         return true;
     }
 
-    private void resetCreateNewAccount() {
+    private void resetCreateNewAccountHandler() {
         this.choiceNewAccountType.setId("Checking");
         this.textCustomerId.setText("");
         this.textAccountId.setText("");
@@ -130,7 +274,7 @@ public class BankAccountView {
 
     private void showStatus(Alert.AlertType alertType, String message) {
         // TODO: Change background when alert type is ERROR/WARNING/INFO
-        this.labelNewAccountStatusContent.setText(message);
+        this.labelNewAccountStatus.setText(message);
     }
 
 

@@ -5,6 +5,7 @@ import java.util.List;
 // M5 MVC Pattern
 public class BankAccountModel {
 
+
     private final List<Account> accountList;
 
     public BankAccountModel(List<Account> accountList) {
@@ -12,15 +13,46 @@ public class BankAccountModel {
     }
 
     public BankAccountModel() {
+        this(false);
+    }
+
+    public BankAccountModel(boolean includeSampleData) {
         this(new ArrayList<>());
+
+        if (includeSampleData) {
+            createSampleData();
+        }
+    }
+
+    private void createSampleData() {
+        accountList.add(AccountFactory.createDefaultCheckingAccount(1, 1, new BigDecimal("12500")));
+        accountList.add(AccountFactory.createDefaultSavingAccount(1, 2, new BigDecimal("25200")));
+        accountList.add(AccountFactory.createDefaultCDAccount(2, 3, new BigDecimal("33000")));
     }
 
     public List<Account> getAccountList() {
         return accountList;
     }
 
-    public void createNewAccount(String accountType, int customerId, long accountId, BigDecimal initialBalance) {
+    public void withdraw(Account account, BigDecimal amount) throws BankAccountException {
 
+        if (amount.compareTo(account.getBalance()) > 0) {
+            throw new BankAccountException("Insufficient balance!");
+        }
+
+        account.withdrawal(amount);
+    }
+
+    public void createNewAccount(String accountType, int customerId, long accountId, BigDecimal initialBalance) throws BankAccountException {
+
+        // Check if the account with accountId exists!
+        for (Account account : accountList) {
+            if (accountId == account.getAccountId()) {
+                throw new BankAccountException("Account with same id exists!");
+            }
+        }
+
+        // Create account
         Account account = null;
 
         if ("Checking".equals(accountType)) {
