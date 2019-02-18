@@ -1,4 +1,3 @@
-import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
@@ -23,10 +22,10 @@ public class BankAccountView {
     // M5 MVC Pattern
     // M5 use at least one control that is different from a TextField (e.g., a radio button, check box, combo box, etc.)
     // M5 Use ChoiceBox
-    private final ChoiceBox<String> choiceNewAccountType = new ChoiceBox(FXCollections.observableArrayList(
-            "Checking", "Savings", "CD")
-    );
+    private final ChoiceBox<String> choiceNewAccountType = new ChoiceBox();
+
     private final ChoiceBox<String> choiceOverviewAccount = new ChoiceBox();
+
     // M5 MVC Pattern
     private Parent root;
     private final TextField textCustomerId = new TextField();
@@ -52,11 +51,6 @@ public class BankAccountView {
     private Button buttonOverviewWithdraw = new Button("Withdraw");
 
     private Label labelOverviewStatus = new Label("");
-
-
-    public BankAccountView() {
-
-    }
 
     public void showAccountDetailDialog(long accountId, String accountType, long customerId, BigDecimal balance, String otherDetail) {
         Stage dialog = new Stage();
@@ -210,7 +204,8 @@ public class BankAccountView {
      * The place to initialize UI components
      */
     private void initUIComponents() {
-        choiceNewAccountType.getSelectionModel().selectFirst();
+
+        controller.setNewAccountTypeChoice();
 
         controller.refreshOverviewList();
 
