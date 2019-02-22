@@ -5,8 +5,6 @@ import javafx.scene.Scene;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
-import javafx.scene.text.*;
-import javafx.scene.shape.*;
 
 public class LightUp extends Application {
     private Rectangle rectangle;

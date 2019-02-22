@@ -29,6 +29,12 @@ public class BankAccountController {
         view.getChoiceOverviewAccount().getSelectionModel().selectFirst();
     }
 
+    public void setNewAccountTypeChoice() {
+        view.getChoiceNewAccountType().setItems(FXCollections.observableArrayList(
+                "Checking", "Savings", "CD"));
+        view.getChoiceNewAccountType().getSelectionModel().selectFirst();
+    }
+
     private List<String> getOverviewList() {
         List<String> result = new ArrayList<>();
 
