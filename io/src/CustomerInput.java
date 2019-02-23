@@ -11,6 +11,10 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
 public class CustomerInput extends Application {
 
@@ -78,7 +82,90 @@ public class CustomerInput extends Application {
     }
 
     private void parseFile(File file) {
-        // ??? YOUR CODE HERE
+
+        // M6 IO
+
+        // Open and parse CSV
+        try (Scanner scanner = new Scanner(file)) {
+
+            // List of customers
+            List<Customer> customerList = new ArrayList<>();
+
+            // Parse the content of CSV
+            while (scanner.hasNextLine()) {
+
+                String line = scanner.nextLine();
+
+                // Split the line by comma
+                String[] rawFields = line.split(",");
+                if (rawFields.length < 2) {
+                    throw new IllegalStateException("Not enough fields are provided! Line=" + line);
+                }
+
+                // Parse fields of customer object
+                String customerId = rawFields[0];
+                Integer numOfOrders = 0;
+
+                try {
+                    numOfOrders = Integer.parseInt(rawFields[1]);
+                } catch (NumberFormatException nfe) {
+                    throw new NumberFormatException("numOfOrders");
+                }
+
+                if (customerId.contains("@")) {
+                    throw new InvalidCharacterException("CustomerId");
+                }
+
+                // Create and add the customer object
+                customerList.add(new Customer(customerId, numOfOrders));
+            }
+
+            // Show result
+            // Show the status text
+            statusText.setText("Success! " + customerList.size() + " customers in total!");
+            statusText.setVisible(true);
+
+            // Show the result text
+            resultText.setText(customerList.stream().mapToInt(n -> n.getNumberOfOrders()).sum() + " orders in total!");
+            resultText.setVisible(true);
+
+            // Disable the upload button
+            uploadButton.setDisable(true);
+
+        } catch (NumberFormatException e) {
+
+            // Situation 1: Number format exception in field
+            statusText.setText("Invalid number in field " + e.getMessage() + "!");
+            statusText.setVisible(true);
+
+        } catch (InvalidCharacterException e) {
+
+            // Situation 2: Invalid character in field
+            statusText.setText("Invalid char(@) in field " + e.getMessage() + "!");
+            statusText.setVisible(true);
+
+        } catch (IOException e) {
+
+            // Situation 3: IO Exception
+            statusText.setText(e.getMessage());
+            statusText.setVisible(true);
+
+        } catch (IllegalStateException e) {
+
+            // Situation 4: Not enough fields in the input
+            statusText.setText(e.getMessage());
+            statusText.setVisible(true);
+
+        }
+
     }
 
+}
+
+// M6: IO
+// Define own exception for invalid character
+class InvalidCharacterException extends Exception {
+    public InvalidCharacterException(String message) {
+        super(message);
+    }
 }
