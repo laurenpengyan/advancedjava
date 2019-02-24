@@ -104,16 +104,15 @@ public class CustomerInput extends Application {
 
                 // Parse fields of customer object
                 String customerId = rawFields[0];
-                Integer numOfOrders = 0;
+                if (customerId.contains("@")) {
+                    throw new InvalidCharacterException("ID contains invalid character.");
+                }
 
+                Integer numOfOrders = 0;
                 try {
                     numOfOrders = Integer.parseInt(rawFields[1]);
                 } catch (NumberFormatException nfe) {
-                    throw new NumberFormatException("numOfOrders");
-                }
-
-                if (customerId.contains("@")) {
-                    throw new InvalidCharacterException("CustomerId");
+                    throw new NumberFormatException("non-integer quantity.");
                 }
 
                 // Create and add the customer object
@@ -122,11 +121,12 @@ public class CustomerInput extends Application {
 
             // Show result
             // Show the status text
-            statusText.setText("Success! " + customerList.size() + " customers in total!");
+            statusText.setText("Upload Successful: " + customerList.size() + " customers.");
             statusText.setVisible(true);
 
             // Show the result text
-            resultText.setText(customerList.stream().mapToInt(n -> n.getNumberOfOrders()).sum() + " orders in total!");
+            // Show the totalOrders of all customers
+            resultText.setText("Total Number of Orders: " + customerList.stream().mapToInt(n -> n.getNumberOfOrders()).sum());
             resultText.setVisible(true);
 
             // Disable the upload button
@@ -135,25 +135,25 @@ public class CustomerInput extends Application {
         } catch (NumberFormatException e) {
 
             // Situation 1: Number format exception in field
-            statusText.setText("Invalid number in field " + e.getMessage() + "!");
+            statusText.setText("Upload failed: " + e.getMessage() + "!");
             statusText.setVisible(true);
 
         } catch (InvalidCharacterException e) {
 
             // Situation 2: Invalid character in field
-            statusText.setText("Invalid char(@) in field " + e.getMessage() + "!");
+            statusText.setText("Upload failed: " + e.getMessage() + ".");
             statusText.setVisible(true);
 
         } catch (IOException e) {
 
             // Situation 3: IO Exception
-            statusText.setText(e.getMessage());
+            statusText.setText("Upload failed: " + e.getMessage());
             statusText.setVisible(true);
 
         } catch (IllegalStateException e) {
 
             // Situation 4: Not enough fields in the input
-            statusText.setText(e.getMessage());
+            statusText.setText("Upload failed: " + e.getMessage());
             statusText.setVisible(true);
 
         }
