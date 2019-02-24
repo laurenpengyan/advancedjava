@@ -4,35 +4,45 @@ import java.util.Scanner;
 
 public class PositiveNumbers {
     public static void main(String[] args) {
-        Scanner scan = new Scanner(System.in);
-        System.out.print("Enter file name: ");
-        String filename = scan.nextLine();
 
-        try {
-            //reinitializing scan to read from file
-            scan = new Scanner(new File(filename));
-            //initializing sum to 0
+        String fileName = null;
+        try (Scanner scanner = new Scanner(System.in)) {
+            System.out.print("Enter file name: ");
+            fileName = scanner.nextLine();
+        }
+
+        // Read file
+        try (Scanner scanner = new Scanner(new File(fileName))) {
+
+            // Initialize sum to 0
             int sum = 0;
 
-            while (scan.hasNextInt()) {
-                //reading integer
-                int numbers = scan.nextInt();
+            while (scanner.hasNextInt()) {
+
+                // Reading integer
+                int numbers = scanner.nextInt();
+
                 //checking if numbers is negative
                 if (numbers < 0) {
-                    //throwing negative number exception
+                    // Throwing negative number exception
                     throw new NegativeNumberException("Negative number found: " + numbers);
                 }
+
+                // Add number to sum
                 sum += numbers;
             }
-            scan.close();
+
+            // Dump the sum for all the numbers
             System.out.println("Sum of all numbers is " + sum);
+
         } catch (FileNotFoundException e) {
-            //file not found
+            // File not found
             System.err.println(e.getMessage());
         } catch (NegativeNumberException e) {
-            //negative number found in the file
+            // Negative number found in the file
             System.err.println(e.getMessage());
         }
+
     }
 }
 
