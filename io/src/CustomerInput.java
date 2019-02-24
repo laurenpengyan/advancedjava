@@ -12,6 +12,7 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -86,7 +87,7 @@ public class CustomerInput extends Application {
         // M6 IO
 
         // Open and parse CSV
-        try (Scanner scanner = new Scanner(file)) {
+        try (Scanner scanner = new Scanner(file, Charset.defaultCharset().name())) {
 
             // List of customers
             List<Customer> customerList = new ArrayList<>();
@@ -135,24 +136,24 @@ public class CustomerInput extends Application {
         } catch (NumberFormatException e) {
 
             // Situation 1: Number format exception in field
-            statusText.setText("Upload failed: " + e.getMessage() + "!");
+            statusText.setText("Upload failed: " + e.getMessage());
             statusText.setVisible(true);
 
         } catch (InvalidCharacterException e) {
 
             // Situation 2: Invalid character in field
-            statusText.setText("Upload failed: " + e.getMessage() + ".");
+            statusText.setText("Upload failed: " + e.getMessage());
             statusText.setVisible(true);
 
         } catch (IOException e) {
 
             // Situation 3: IO Exception
-            statusText.setText("Upload failed: " + e.getMessage());
+            statusText.setText("Upload failed: I/O error.");
             statusText.setVisible(true);
 
         } catch (IllegalStateException e) {
 
-            // Situation 4: Not enough fields in the input
+            // Situation 4: Other cases
             statusText.setText("Upload failed: " + e.getMessage());
             statusText.setVisible(true);
 
