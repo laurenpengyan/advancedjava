@@ -23,7 +23,7 @@ public class Main {
     public static void main(String[] args) {
 
         // School list.
-        ArrayList<School> schoolList = new ArrayList<>();
+        List<School> schoolList = new ArrayList<>();
         JSONParser parser = new JSONParser();
 
         try {
@@ -39,6 +39,7 @@ public class Main {
             for (Object object : schools) {
 
                 final JSONObject school = (JSONObject) object;
+
                 final long opeID = (long) school.get(OPE_ID_INDEX);
                 final String schoolName = (String) school.get(SCHOOL_NAME_INDEX);
                 final String state = (String) school.get(STATE_INDEX);
@@ -50,7 +51,7 @@ public class Main {
             }
 
             // Tally up the number of awards and recipients per state by adding them to a HashMap.
-            for (School school : schoolList){
+            for (School school : schoolList) {
 
                 if (awardsMap.containsKey(school.getState())) {
                     awardsMap.put(school.getState(), awardsMap.get(school.getState()) + school.getAwards());
@@ -70,7 +71,7 @@ public class Main {
             }
 
             // Sort the maps and print the results.
-            Map<String, Long> sortedAwardsMap = new TreeMap<String, Long>(awardsMap);
+            Map<String, Long> sortedAwardsMap = new TreeMap<>(awardsMap);
             NumberFormat numberFormat = NumberFormat.getCurrencyInstance(Locale.US);
             numberFormat.setMaximumFractionDigits(0);
 
