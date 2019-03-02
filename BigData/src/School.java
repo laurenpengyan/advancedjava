@@ -20,7 +20,7 @@ public class School implements Comparable<School> {
         if (obj == this)
             return true;
 
-        if (!(obj instanceof School)){
+        if (!(obj instanceof School)) {
             return false;
         }
 
