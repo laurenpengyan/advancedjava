@@ -33,7 +33,7 @@ public class Main {
 
             // Award and recipient HashMaps.
             HashMap<String, Long> awardsMap = new HashMap<>();
-            HashMap<String, Long> recipientMap = new HashMap<>();
+            HashMap<String, Integer> recipientMap = new HashMap<>();
 
             // Parse through the JSON data and create the school objects/list.
             for (Object object : schools) {
@@ -44,7 +44,7 @@ public class Main {
                 final String schoolName = (String) school.get(SCHOOL_NAME_INDEX);
                 final String state = (String) school.get(STATE_INDEX);
                 final long awards = (long) school.get(AWARDS_INDEX);
-                final long recipients = (long) school.get(RECIPIENTS_INDEX);
+                final int recipients = (int) school.get(RECIPIENTS_INDEX);
 
                 schoolList.add(new School(opeID, schoolName, state, awards, recipients));
 
@@ -60,7 +60,7 @@ public class Main {
                 }
 
                 if (recipientMap.containsKey(school.getState())) {
-                    recipientMap.put(school.getState(), awardsMap.get(school.getState()) + school.getRecipients());
+                    recipientMap.put(school.getState(), recipientMap.get(school.getState()) + school.getRecipients());
                 } else {
                     recipientMap.put(school.getState(), school.getRecipients());
                 }
