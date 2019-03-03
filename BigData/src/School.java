@@ -1,6 +1,17 @@
+import java.text.NumberFormat;
 import java.util.Comparator;
+import java.util.Locale;
 
 public class School implements Comparable<School> {
+
+    private static final NumberFormat CURRENCY_FORMATTER = NumberFormat.getCurrencyInstance(Locale.US);
+
+    private static final NumberFormat NUMBER_FORMATTER = NumberFormat.getNumberInstance(Locale.US);
+
+    static {
+        CURRENCY_FORMATTER.setMaximumFractionDigits(0);
+        NUMBER_FORMATTER.setMaximumFractionDigits(0);
+    }
 
     private int recipients;
 
@@ -36,8 +47,8 @@ public class School implements Comparable<School> {
         sb.append("id=").append(id);
         sb.append(", name='").append(name).append('\'');
         sb.append(", state='").append(state).append('\'');
-        sb.append(", awards=").append(awards);
-        sb.append(", recipients=").append(recipients);
+        sb.append(", awards=").append(CURRENCY_FORMATTER.format(awards));
+        sb.append(", recipients=").append(NUMBER_FORMATTER.format(recipients));
         sb.append('}');
         return sb.toString();
     }

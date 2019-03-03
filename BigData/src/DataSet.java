@@ -8,10 +8,19 @@ import java.util.*;
 // Question 2: What are the total number of recipients for each state?
 // Quesiong 3: How much are the average awards for each state?
 // Question 4: What is the top 5 schools with most awards amount?
-// Question 5: What is the top 5 schools with average of awards?
+// Question 5: What is the top 10 schools with average of awards?
 public class DataSet {
 
     private static final String CSV_LOCATION = "data.csv";
+
+    private static final NumberFormat CURRENCY_FORMATTER = NumberFormat.getCurrencyInstance(Locale.US);
+
+    private static final NumberFormat NUMBER_FORMATTER = NumberFormat.getNumberInstance(Locale.US);
+
+    static {
+        CURRENCY_FORMATTER.setMaximumFractionDigits(0);
+        NUMBER_FORMATTER.setMaximumFractionDigits(0);
+    }
 
     public static void main(String[] args) {
 
@@ -69,23 +78,17 @@ public class DataSet {
             // Sort the maps by state name and print the results.
             Set<String> states = new TreeSet<>(awardsMap.keySet());
 
-            NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(Locale.US);
-            currencyFormatter.setMaximumFractionDigits(0);
-
-            NumberFormat numberFormatter = NumberFormat.getNumberInstance(Locale.US);
-            currencyFormatter.setMaximumFractionDigits(0);
-
             System.out.println("The total awards, the total number of recipients and the average awards for each state:");
             for (String state : states) {
                 long awards = awardsMap.get(state);
                 int recipients = recipientsMap.get(state);
                 double avg = awards / recipients;
 
-                System.out.println(state + ": Awards=" + currencyFormatter.format(awards) + ", Recipients=" + numberFormatter.format(recipients) + ", Average=" + currencyFormatter.format(avg));
+                System.out.println(state + ": Awards=" + CURRENCY_FORMATTER.format(awards) + ", Recipients=" + NUMBER_FORMATTER.format(recipients) + ", Average=" + CURRENCY_FORMATTER.format(avg));
             }
 
 
-            // Show the top 5 schools with largest awards amount
+            // Show the top 5 schools with the most awards amount
             Collections.sort(schoolList, new School.AwardsComparator());
             System.out.println();
             System.out.println("The top 5 schools with most awards amount:");
@@ -94,7 +97,7 @@ public class DataSet {
                 System.out.println(schoolList.get(i));
             }
 
-            // Show the top 5 schools with average
+            // Show the top 10 schools with average
             System.out.println();
             System.out.println("The top 10 schools with average of awards:");
             Collections.sort(schoolList, new School.AwardsPerRecipientComparator());
