@@ -1,4 +1,4 @@
-import java.util.Random;
+import java.util.*;
 
 public class RandomBoxDriver {
 
@@ -24,24 +24,44 @@ public class RandomBoxDriver {
         // SUGGESTION: CREATE A RANDOMBOX THAT HOLDS SOME OTHER TYPE- ANY CLASS YOU'VE GOT!
 
         // UNCOMMENT WHEN YOU WRITE YOUR STATIC METHOD
-		/*
 		System.out.println("\nMultiple Winners!\n");
 		System.out.println("Random Name Drawing! 5 Unique Winners!");
 		List<String> nameWinners = pickMultipleWinners(nameDrawing, 5);
 		System.out.println(nameWinners);
+
 		System.out.println("\nLottery! 3 Unique Winners!");
 		List<Integer> numberWinners = pickMultipleWinners(lottery, 3);
 		System.out.println(numberWinners);
+
         RandomBox<String> uniqueNameBoxTest = new RandomBox<>();
         uniqueNameBoxTest.addItem("Winner1");
         uniqueNameBoxTest.addItem("Winner2");
         uniqueNameBoxTest.addItem("Winner3");
+
         List<String> uniqueWinners = pickMultipleWinners(uniqueNameBoxTest, 3);
         System.out.println("List should contain Winner1, Winner2, and Winner3 (in any order)");
         System.out.println(uniqueWinners);
+
         System.out.println("Code should take some logical action but should NOT return a list with duplicate winners or enter an infinite loop.");
         uniqueWinners = pickMultipleWinners(uniqueNameBoxTest, 4);
-		*/
+        System.out.println(uniqueWinners);
+
+    }
+
+    private static <T> List<T> pickMultipleWinners(RandomBox<T> randomBox, int numOfWinners) {
+
+        if (numOfWinners > randomBox.numOfItems()) {
+            // More winners than size of the RandomBox, all win!
+            return randomBox.getItems();
+        }
+
+        Set<T> result = new HashSet<>();
+
+        while (result.size() < numOfWinners) {
+            result.add(randomBox.drawWinner());
+        }
+
+        return new ArrayList<>(result);
 
     }
 

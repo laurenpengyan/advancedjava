@@ -20,19 +20,15 @@ public class RandomBox<T> {
     }
 
     public void displayEntries() {
+        System.out.print("#entries=" + items.size() + ", entries=" + items);
+    }
 
-        boolean first = true;
-        System.out.print("RandomBox: ");
-        for (T item : items) {
-            if (!first) {
-                System.out.print(",");
-            } else {
-                first = false;
-            }
-            System.out.print(item);
-        }
-        System.out.println("");
+    public int numOfItems() {
+        return items.size();
+    }
 
+    public List<T> getItems() {
+        return items;
     }
 
     @Override
