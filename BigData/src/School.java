@@ -1,6 +1,8 @@
+import java.io.Serializable;
 import java.text.NumberFormat;
 import java.util.Comparator;
 import java.util.Locale;
+import java.util.Objects;
 
 public class School implements Comparable<School> {
 
@@ -53,8 +55,12 @@ public class School implements Comparable<School> {
         return sb.toString();
     }
 
-    static class AwardsComparator implements Comparator<School> {
+    @Override
+    public int hashCode() {
+        return Objects.hash(recipients, id, name, state, awards);
+    }
 
+    static class AwardsComparator implements Comparator<School>, Serializable {
         public int compare(School a, School b) {
             return Long.signum(b.awards - a.awards);
         }
@@ -98,13 +104,13 @@ public class School implements Comparable<School> {
         return awards;
     }
 
-    static class RecipientsComparator implements Comparator<School> {
+    static class RecipientsComparator implements Comparator<School>, Serializable {
         public int compare(School a, School b) {
             return b.recipients - a.recipients;
         }
     }
 
-    static class AwardsPerRecipientComparator implements Comparator<School> {
+    static class AwardsPerRecipientComparator implements Comparator<School>, Serializable {
         public int compare(School a, School b) {
             return (int) Math.signum(((double) b.awards / b.recipients) - ((double) a.awards / a.recipients));
         }

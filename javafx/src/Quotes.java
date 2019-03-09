@@ -14,7 +14,7 @@ import java.util.Random;
 public class Quotes extends Application {
 
     // Quotes to be displayed
-    private String[] quotes = {"All our dreams can come true, if we have the courage to pursue them.",
+    private String[] quotesArray = {"All our dreams can come true, if we have the courage to pursue them.",
             "It does not matter how slowly you go as long as you do not stop.",
             "The future belongs to those who believe in the beauty of their dreams.",
             "Success is not final, failure is not fatal: it is the courage to continue that counts.",
@@ -69,7 +69,7 @@ public class Quotes extends Application {
     public void changeQuotes() {
 
         // Choose a random quote and fonts and color
-        String quote = quotes[random.nextInt(quotes.length)];
+        String quote = quotesArray[random.nextInt(quotesArray.length)];
         String font = fonts[random.nextInt(fonts.length)];
         Color color = new Color(random.nextDouble(), random.nextDouble(), random.nextDouble(), 1);
 
