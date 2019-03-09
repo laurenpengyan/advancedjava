@@ -25,7 +25,7 @@ public class RandomBoxDriver {
         // SUGGESTION: CREATE A RANDOMBOX THAT HOLDS SOME OTHER TYPE- ANY CLASS YOU'VE GOT!
         RandomBox<BigDecimal> firstPrizeAmountDrawing = new RandomBox<>();
         fillPrizeAmounts(firstPrizeAmountDrawing);
-        System.out.println("\nAmount of first prize today is " + firstPrizeAmountDrawing.drawWinner() + "!");
+        System.out.println("\nAmount of first prize today is $" + firstPrizeAmountDrawing.drawWinner() + "!");
 
         // UNCOMMENT WHEN YOU WRITE YOUR STATIC METHOD
         System.out.println("\nMultiple Winners!\n");
