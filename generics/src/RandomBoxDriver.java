@@ -1,10 +1,11 @@
+import java.math.BigDecimal;
 import java.util.*;
 
 public class RandomBoxDriver {
 
     public static void main(String[] args) {
 
-        // Draw between employees
+        // Employee drawing
         RandomBox<String> nameDrawing = new RandomBox<>();
         fillNames(nameDrawing);
 
@@ -13,7 +14,7 @@ public class RandomBoxDriver {
         nameDrawing.displayEntries();
         System.out.println("Winner: " + nameDrawing.drawWinner());
 
-        // Handle lottery
+        // Lottery drawing
         RandomBox<Integer> lottery = new RandomBox<>();
         fillNumbers(lottery, 100);
         System.out.println("\nLottery!");
@@ -22,16 +23,19 @@ public class RandomBoxDriver {
         System.out.println("Winner: " + lottery.drawWinner());
 
         // SUGGESTION: CREATE A RANDOMBOX THAT HOLDS SOME OTHER TYPE- ANY CLASS YOU'VE GOT!
+        RandomBox<BigDecimal> firstPrizeAmountDrawing = new RandomBox<>();
+        fillPrizeAmounts(firstPrizeAmountDrawing);
+        System.out.println("\nAmount of first prize today is " + firstPrizeAmountDrawing.drawWinner() + "!");
 
         // UNCOMMENT WHEN YOU WRITE YOUR STATIC METHOD
-		System.out.println("\nMultiple Winners!\n");
-		System.out.println("Random Name Drawing! 5 Unique Winners!");
-		List<String> nameWinners = pickMultipleWinners(nameDrawing, 5);
-		System.out.println(nameWinners);
+        System.out.println("\nMultiple Winners!\n");
+        System.out.println("Random Name Drawing! 5 Unique Winners!");
+        List<String> nameWinners = pickMultipleWinners(nameDrawing, 5);
+        System.out.println(nameWinners);
 
-		System.out.println("\nLottery! 3 Unique Winners!");
-		List<Integer> numberWinners = pickMultipleWinners(lottery, 3);
-		System.out.println(numberWinners);
+        System.out.println("\nLottery! 3 Unique Winners!");
+        List<Integer> numberWinners = pickMultipleWinners(lottery, 3);
+        System.out.println(numberWinners);
 
         RandomBox<String> uniqueNameBoxTest = new RandomBox<>();
         uniqueNameBoxTest.addItem("Winner1");
@@ -42,9 +46,21 @@ public class RandomBoxDriver {
         System.out.println("List should contain Winner1, Winner2, and Winner3 (in any order)");
         System.out.println(uniqueWinners);
 
-        System.out.println("Code should take some logical action but should NOT return a list with duplicate winners or enter an infinite loop.");
+        System.out.println("\nCode should take some logical action but should NOT return a list with duplicate winners or enter an infinite loop.");
         uniqueWinners = pickMultipleWinners(uniqueNameBoxTest, 4);
         System.out.println(uniqueWinners);
+
+    }
+
+    private static void fillPrizeAmounts(RandomBox<BigDecimal> prizeAmountDrawing) {
+
+        prizeAmountDrawing.addItem(new BigDecimal("1"));
+        prizeAmountDrawing.addItem(new BigDecimal("10"));
+        prizeAmountDrawing.addItem(new BigDecimal("100"));
+        prizeAmountDrawing.addItem(new BigDecimal("500"));
+        prizeAmountDrawing.addItem(new BigDecimal("1000"));
+        prizeAmountDrawing.addItem(new BigDecimal("10000"));
+        prizeAmountDrawing.addItem(new BigDecimal("100000"));
 
     }
 
