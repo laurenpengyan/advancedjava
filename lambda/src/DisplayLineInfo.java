@@ -13,6 +13,8 @@ public interface DisplayLineInfo {
                         String.format("(%.1f,%.1f)", (line.getEndX() + line.getStartX()) / 2, (line.getEndY() + line.getStartY()) / 2);
             case VERTHORZ:
                 return line -> String.format("Vertical? %b Horizontal? %b", Double.compare(line.getEndX(), line.getStartX()) == 0, Double.compare(line.getEndY(), line.getStartY()) == 0);
+            case ANGLE:
+                return line -> String.format("%.1f", LineUtils.getAngle(line));
         }
         return null;
 
@@ -21,7 +23,7 @@ public interface DisplayLineInfo {
     String getInfo(Line line);
 
     public static enum InfoType {
-        DISTANCE, MIDPOINT, VERTHORZ;
+        DISTANCE, MIDPOINT, VERTHORZ, ANGLE;
     }
 
 }

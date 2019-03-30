@@ -20,8 +20,8 @@ public class LineGUI extends Application {
     private BorderPane borderPane;
     private Circle startPoint, endPoint;
     private Line line;
-    private Button distanceButton, midpointButton, vertHorzButton;
-    private Text distanceText, midpointText, vertHorxText;
+    private Button distanceButton, midpointButton, vertHorzButton, angleButton;
+    private Text distanceText, midpointText, vertHorxText, angleText;
 
     public static void main(String[] args) {
         launch(args);
@@ -58,7 +58,14 @@ public class LineGUI extends Application {
         TilePane vertHorzPane = new TilePane(vertHorzButton, vertHorxText);
         vertHorzPane.setAlignment(Pos.CENTER);
 
-        VBox controlBox = new VBox(distancePane, midpointPane, vertHorzPane);
+        angleText = new Text("");
+        angleButton = new Button("Angle");
+        // YOUR CODE HERE- ADD A STATEMENT TO SET THE ACTION OF THE BUTTON
+        angleButton.setOnAction(event -> angleText.setText(DisplayLineInfo.createDisplayLineInfo(DisplayLineInfo.InfoType.ANGLE).getInfo(line)));
+        TilePane anglePane = new TilePane(angleButton, angleText);
+        anglePane.setAlignment(Pos.CENTER);
+
+        VBox controlBox = new VBox(distancePane, midpointPane, vertHorzPane, anglePane);
         controlBox.setAlignment(Pos.CENTER);
         controlBox.setSpacing(10);
         borderPane.setBottom(controlBox);
