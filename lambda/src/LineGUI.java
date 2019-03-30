@@ -37,6 +37,7 @@ public class LineGUI extends Application {
         distanceText = new Text("");
         distanceButton = new Button("Calculate Distance");
         // YOUR CODE HERE- ADD A STATEMENT TO SET THE ACTION OF THE BUTTON
+        distanceButton.setOnAction(event -> distanceText.setText(DisplayLineInfo.createDisplayLineInfo(DisplayLineInfo.InfoType.DISTANCE).getInfo(line)));
 
         TilePane distancePane = new TilePane(distanceButton, distanceText);
         distancePane.setAlignment(Pos.CENTER);
@@ -44,6 +45,7 @@ public class LineGUI extends Application {
         midpointText = new Text("");
         midpointButton = new Button("Calculate Midpoint");
         // YOUR CODE HERE- ADD A STATEMENT TO SET THE ACTION OF THE BUTTON
+        midpointButton.setOnAction(event -> midpointText.setText(DisplayLineInfo.createDisplayLineInfo(DisplayLineInfo.InfoType.MIDPOINT).getInfo(line)));
 
         TilePane midpointPane = new TilePane(midpointButton, midpointText);
         midpointPane.setAlignment(Pos.CENTER);
@@ -51,6 +53,7 @@ public class LineGUI extends Application {
         vertHorxText = new Text("");
         vertHorzButton = new Button("Determine Vertical/Horizontal");
         // YOUR CODE HERE- ADD A STATEMENT TO SET THE ACTION OF THE BUTTON
+        vertHorzButton.setOnAction(event -> vertHorxText.setText(DisplayLineInfo.createDisplayLineInfo(DisplayLineInfo.InfoType.VERTHORZ).getInfo(line)));
 
         TilePane vertHorzPane = new TilePane(vertHorzButton, vertHorxText);
         vertHorzPane.setAlignment(Pos.CENTER);
