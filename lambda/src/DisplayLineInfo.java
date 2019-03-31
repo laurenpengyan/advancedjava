@@ -1,18 +1,21 @@
+import javafx.geometry.Point2D;
 import javafx.scene.shape.Line;
 
 @FunctionalInterface
 public interface DisplayLineInfo {
 
     public static DisplayLineInfo createDisplayLineInfo(InfoType type) {
-        //  YOUR CODE HERE!
+
         switch (type) {
             case DISTANCE:
-                return line -> String.format("%.1f", Math.sqrt(Math.pow(line.getEndX() - line.getStartX(), 2) + Math.pow(line.getEndY() - line.getStartY(), 2)));
+                return line -> String.format("%.1f", LineUtils.getDistance(line));
             case MIDPOINT:
-                return line ->
-                        String.format("(%.1f,%.1f)", (line.getEndX() + line.getStartX()) / 2, (line.getEndY() + line.getStartY()) / 2);
+                return line -> {
+                    Point2D mp = LineUtils.getMidPoint(line);
+                    return String.format("(%.1f,%.1f)", mp.getX(), mp.getY());
+                };
             case VERTHORZ:
-                return line -> String.format("Vertical? %b Horizontal? %b", Double.compare(line.getEndX(), line.getStartX()) == 0, Double.compare(line.getEndY(), line.getStartY()) == 0);
+                return line -> String.format("Vertical? %b Horizontal? %b", LineUtils.isVertical(line), LineUtils.isHorizontal(line));
             case ANGLE:
                 return line -> String.format("%.1f", LineUtils.getAngle(line));
         }
