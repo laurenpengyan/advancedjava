@@ -12,7 +12,7 @@ import java.util.stream.Stream;
  */
 public class StreamsDemo {
 
-    private final static Pattern WORD_SPLITER_PATTERN = Pattern.compile("[\\P{L}]+");
+    private static final Pattern WORD_SPLITER_PATTERN = Pattern.compile("[\\P{L}]+");
 
     public static void main(String[] args) {
 
