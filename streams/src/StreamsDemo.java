@@ -43,7 +43,7 @@ public class StreamsDemo {
         Path path = Paths.get("words.txt");
 
         //The stream hence file will also be closed here
-        try (Stream<String> lines = Files.lines(path)) {
+        try (Stream<String> lines = Files.lines(path).onClose(() -> System.out.println("File closed"))) {
             // Use flatMap to map one entry to multiple entries
             lines.flatMap(WORD_SPLITER_PATTERN::splitAsStream).collect(Collectors.toList()).forEach(System.out::println);
         } catch (IOException e) {
