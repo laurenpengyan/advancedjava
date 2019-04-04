@@ -91,7 +91,7 @@ public class HomeworkM11Streams {
         // EXTRA CREDIT
         // Add an additional Customer or word-related query! Be creative!
         // Calculate the average number of characters in the word list
-        System.out.format("%nQ13 Average number of characters in the word list: %.2f%n", scrabbleWords.stream().mapToDouble(String::length).average().getAsDouble());
+        System.out.format("%nQ13 Average number of characters in the word list: %.2f%n", scrabbleWords.stream().mapToDouble(String::length).average().orElse(0d));
 
     }
 
