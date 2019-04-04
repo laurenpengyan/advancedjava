@@ -4,11 +4,9 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class HomeworkM11Streams {
 
@@ -60,15 +58,16 @@ public class HomeworkM11Streams {
         // Note: you can test your code with a lower amount, too, to see something printed.
         System.out.println("\nQ8: Should print nothing: ");
         // YOUR ANSWER HERE
+        System.out.println(customerList.stream().filter(customer -> customer.getAmountSpent() > 9800d).map(customer -> customer.getId()).collect(Collectors.joining(",")));
 
         // Q9: Find the sum of the numbers represented in an String array.
         String[] numWords = {"1", "2", "3", "4", "5", "6"};
-        int sum = 0; // YOUR ANSWER HERE
+        int sum = Stream.of(numWords).map(Integer::parseInt).mapToInt(Integer::intValue).sum(); // YOUR ANSWER HERE
         System.out.println("\nQ9: Sum is 21: " + sum);
 
         // Q10: Create a String of the numbers represented in the array, separated by semicolons.
         Integer[] nums = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
-        String concat = ""; // YOUR ANSWER HERE
+        String concat = Stream.of(nums).map(String::valueOf).collect(Collectors.joining(";")); // YOUR ANSWER HERE
         System.out.println("\nQ10: Should print: \n1;2;3;4;5;6;7;8;9;10 \n" + concat);
 
         // Q11: Create an infinite stream of random integers in the range 1-100.
@@ -76,6 +75,8 @@ public class HomeworkM11Streams {
         // Print the first 10 of these numbers.
         System.out.println("\nQ11: Will print 10 numbers that are multiples of 3 between 1-100:");
         // YOUR ANSWER HERE
+        final Random rnd = new Random();
+        Stream.generate(() -> 1 + rnd.nextInt(100)).filter(n -> (n % 3 == 0)).limit(10).forEach(System.out::println);
 
         // Q12: Print the top 9-highest-scoring scrabble word in the list.
         // Note: a method is provided below to convert from char to score.
@@ -85,10 +86,15 @@ public class HomeworkM11Streams {
                 "\n\tquizzed worth 35 points" + "\n\tjacuzzi worth 34 points" + "\n\tquizzer worth 34 points" +
                 "\n\tquizzes worth 34 points" + "\n\tjazzy worth 33 points" + "\n\tjazzing worth 33 points");
         // YOUR ANSWER HERE
+        scrabbleWords.stream().sorted(Comparator.comparing(HomeworkM11Streams::getWordScore).reversed()).limit(9).forEach(w -> System.out.format("\t%s worth %d points%n", w, HomeworkM11Streams.getWordScore(w)));
 
         // EXTRA CREDIT
         // Add an additional Customer or word-related query! Be creative!
 
+    }
+
+    private static int getWordScore(String word) {
+        return word.chars().map(c -> HomeworkM11Streams.charToScore((char) c)).sum();
     }
 
     private static int charToScore(char c) {
