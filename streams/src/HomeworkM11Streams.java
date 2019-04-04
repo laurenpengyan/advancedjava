@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class HomeworkM11Streams {
 
@@ -18,38 +19,39 @@ public class HomeworkM11Streams {
 
         // Q1: How many customers in CA?
         System.out.print("Q1: Should print 20: ");
-        long caCustomters = 0; // YOUR ANSWER HERE
+        long caCustomters = customerList.stream().filter(customer -> customer.getState().equals("CA")).count(); // YOUR ANSWER HERE
         System.out.println(caCustomters);
 
         // Q2: Create a list of all priority customers in MA.
         System.out.println("\nQ2: Should print \n[ Sasin, Anna (ID:  AS1G) (Priority Customer),  Case, Justin (ID:  JCT1) (Priority Customer)]: ");
-        List<Customer> maPriorityList = null; // YOUR ANSWER HERE
+        List<Customer> maPriorityList = customerList.stream().filter(customer -> customer.isPriority() && customer.getState().equals("MA")).collect(Collectors.toList()); // YOUR ANSWER HERE
         System.out.println(maPriorityList);
 
         // Q3: How much money have all customers spent (combined)?
         System.out.print("\nQ3: Should print 330518.0: ");
-        double total = 0; // YOUR ANSWER HERE
+        double total = customerList.stream().map(customer -> customer.getAmountSpent()).mapToDouble(Double::doubleValue).sum(); // YOUR ANSWER HERE
         System.out.println(total);
 
         // Q4: How much money have all priority customers spent (combined)?
         System.out.print("\nQ4: Should print 226177.0: ");
-        double priorityTotal = 0; // YOUR ANSWER HERE
+        double priorityTotal = customerList.stream().filter(customer -> customer.isPriority()).map(customer -> customer.getAmountSpent()).mapToDouble(Double::doubleValue).sum(); // YOUR ANSWER HERE
         System.out.println(priorityTotal);
 
         // Q5: Create a map of all WY priority customers (key=id, value=customer)
         System.out.println("\nQ5: Should print\n{ PTC8= Turner, Paige (ID:  PTC8) (Priority Customer),  BS20= Seville, Barbara (ID:  BS20) (Priority Customer),  BCG5= Cade, Barry (ID:  BCG5) (Priority Customer),  LK71= King, Leigh (ID:  LK71) (Priority Customer)}");
-        Map<String, Customer> wyCustomers = null; // YOUR ANSWER HERE
+        Map<String, Customer> wyCustomers = customerList.stream().filter(customer -> customer.isPriority() && customer.getState().equals("WY")).collect(Collectors.toMap(customer -> customer.getId(), customer -> customer)); // YOUR ANSWER HERE
         System.out.println(wyCustomers);
 
         // Q6: What is the greatest amount of money spent by a NY priority customer?
         System.out.print("\nQ6: Should print 9207.0: ");
-        double nyHighAmount = 0; // YOUR ANSWER HERE
+        // double nyHighAmount = customerList.stream().filter(c -> c.isPriority() && c.getState().equals("NY")).map(customer -> customer.getAmountSpent()).mapToDouble(Double::doubleValue).max().getAsDouble(); // YOUR ANSWER HERE
+        double nyHighAmount = customerList.stream().filter(customer -> customer.isPriority() && customer.getState().equals("NY")).map(customer -> customer.getAmountSpent()).max(Double::compareTo).get(); // YOUR ANSWER HERE
         System.out.println(nyHighAmount);
 
         //Q7: Find all customers that spent > 9000.
         // Print a comma-separated String of all customer IDs for customers that spent > 9000:
         System.out.println("\nQ7: Should print: \nAD62,AS1G,CV62,HW32,JCT1,KA74,OB63,PTC8,WP90");
-        String highIDList = ""; // YOUR ANSWER HERE
+        String highIDList = customerList.stream().filter(customer -> customer.getAmountSpent() > 9000d).map(customer -> customer.getId()).collect(Collectors.joining(",")); // YOUR ANSWER HERE
         System.out.println(highIDList);
 
 
