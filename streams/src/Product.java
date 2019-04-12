@@ -4,10 +4,15 @@ import java.util.Objects;
 
 public class Product {
 
-    private String name, company, brand, colorScentFlavor;
+    private final String name, company, brand, colorScentFlavor;
     private Category category;
     private List<String> chemicals;
 
+    private final int digest;
+
+    public int getDigest() {
+        return digest;
+    }
 
     public Product(String name, String company, String brand, String colorScentFlavor, Category category) {
         this.name = name;
@@ -15,7 +20,9 @@ public class Product {
         this.brand = brand;
         this.category = category;
         this.colorScentFlavor = colorScentFlavor;
-        this.chemicals = new ArrayList<String>();
+        this.chemicals = new ArrayList<>();
+
+        this.digest = String.format("Product[%s,%s,%s,%s,%s]=", name.toUpperCase(), company.toUpperCase(), brand.toUpperCase(), colorScentFlavor.toUpperCase(), category).hashCode();
     }
 
     public boolean addChemical(String chemical) {

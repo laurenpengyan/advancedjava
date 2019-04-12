@@ -7,6 +7,9 @@
       <sourceFolder url="file://$MODULE_DIR$/../../javafx/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../io/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../BigData/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../streams/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../lambda/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../generics/src" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
