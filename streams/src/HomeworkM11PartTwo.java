@@ -95,20 +95,24 @@ public class HomeworkM11PartTwo {
 
         try (Scanner fileScan = new Scanner(
                 new FileReader(new File(fileName)))) {
-            line = fileScan.nextLine(); // column headers
 
+            int lineNo = 0;
             while (fileScan.hasNext()) {
-                line = fileScan.nextLine();
 
-                Scanner lineScan = new Scanner(line);
-                lineScan.useDelimiter(",");
+                line = fileScan.nextLine(); // column headers
 
-                String name = lineScan.next();
-                String colorScentFlavor = lineScan.next();
-                String company = lineScan.next();
-                String brand = lineScan.next();
-                String categoryString = lineScan.next();
-                String chemicalName = lineScan.next();
+                if (lineNo++ == 0) {
+                    continue;
+                }
+
+                String[] lineScan = line.split(",");
+
+                String name = lineScan[0];
+                String colorScentFlavor = lineScan[1];
+                String company = lineScan[2];
+                String brand = lineScan[3];
+                String categoryString = lineScan[4];
+                String chemicalName = lineScan[5];
 
                 Category category = null;
                 Category[] categories = Category.values();
