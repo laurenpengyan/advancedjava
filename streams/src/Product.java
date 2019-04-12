@@ -10,7 +10,7 @@ public class Product {
 
     private final int digest;
 
-    public int getDigest() {
+    public int getDigestCode() {
         return digest;
     }
 
@@ -22,7 +22,7 @@ public class Product {
         this.colorScentFlavor = colorScentFlavor;
         this.chemicals = new ArrayList<>();
 
-        this.digest = String.format("Product[%s,%s,%s,%s,%s]=", name.toUpperCase(), company.toUpperCase(), brand.toUpperCase(), colorScentFlavor.toUpperCase(), category).hashCode();
+        this.digest = String.format("%s|%s|%s|%s|%s", name.toUpperCase(), company.toUpperCase(), brand.toUpperCase(), colorScentFlavor.toUpperCase(), category).hashCode();
     }
 
     public boolean addChemical(String chemical) {

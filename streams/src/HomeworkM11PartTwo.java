@@ -1,4 +1,4 @@
-import java.io.File;
+import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
@@ -91,28 +91,27 @@ public class HomeworkM11PartTwo {
 
         List<Product> list = new ArrayList<>();
 
-        Set<Integer> digestSet = new HashSet<>();
+        Map<Integer, List<Integer>> digestCodeMap = new HashMap<>();
 
-        try (Scanner fileScan = new Scanner(
-                new FileReader(new File(fileName)))) {
+        try (BufferedReader fileScan = new BufferedReader(new FileReader(fileName))) {
 
             int lineNo = 0;
-            while (fileScan.hasNext()) {
 
-                line = fileScan.nextLine(); // column headers
+            while ((line = fileScan.readLine()) != null) {
 
+                // Skip column headers
                 if (lineNo++ == 0) {
                     continue;
                 }
 
-                String[] lineScan = line.split(",");
+                String[] columnValues = line.split(",");
 
-                String name = lineScan[0];
-                String colorScentFlavor = lineScan[1];
-                String company = lineScan[2];
-                String brand = lineScan[3];
-                String categoryString = lineScan[4];
-                String chemicalName = lineScan[5];
+                String name = columnValues[0];
+                String colorScentFlavor = columnValues[1];
+                String company = columnValues[2];
+                String brand = columnValues[3];
+                String categoryString = columnValues[4];
+                String chemicalName = columnValues[5];
 
                 Category category = null;
                 Category[] categories = Category.values();
@@ -125,18 +124,29 @@ public class HomeworkM11PartTwo {
 
                 Product product = new Product(name, company, brand, colorScentFlavor, category);
 
-                boolean notExist = false;
-                if (!digestSet.contains(product.getDigest())) {
-                    notExist = true;
+                boolean processed = false;
+
+                int digestCode = product.getDigestCode();
+                if (digestCodeMap.containsKey(digestCode)) {
+                    List<Integer> indexList = digestCodeMap.get(digestCode);
+
+                    for (Integer index : indexList) {
+                        if (list.get(index).equals(product)) {
+                            Product existingProduct = list.get(index);
+                            existingProduct.addChemical(chemicalName);
+                            processed = true;
+                            break;
+                        }
+                    }
                 }
 
-                if (notExist) {
+                if (!processed) {
                     product.addChemical(chemicalName);
                     list.add(product);
-                    digestSet.add(product.getDigest());
-                } else {
-                    Product existingProduct = list.get(list.indexOf(product));
-                    existingProduct.addChemical(chemicalName);
+
+                    List<Integer> indexList = new ArrayList<>();
+                    indexList.add(list.size() - 1);
+                    digestCodeMap.put(digestCode, indexList);
                 }
             }
         } catch (IOException ex) {
