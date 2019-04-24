@@ -2,28 +2,29 @@ import java.util.Random;
 
 public class DiceRollers extends Thread {
 
-    private int dice, rolls, numAlllMatches;
+    private int dices;
+    private int rolls;
+    private int nAllMatches;
     private Random rnd;
 
-    public DiceRollers(int dice, int rolls, String name) {
-        this.dice = dice;
+    public DiceRollers(int dices, int rolls, String name) {
+        this.dices = dices;
         this.rolls = rolls;
         this.setName(name);
 
         this.rnd = new Random();
     }
 
+    @Override
     public void run() {
 
-        int diceResults[] = new int[dice];
-
-        // For every dice, roll it for rolls no. of times
+        // Roll the n times
         for (int i = 0; i < rolls; i++) {
 
             boolean allMatched = true;
             int result = 0;
             int initialResult = 0;
-            for (int j = 0; j < dice; j++) {
+            for (int j = 0; j < dices; j++) {
                 result = rnd.nextInt(6);
 
                 if (j > 0 && result != initialResult) {
@@ -35,11 +36,11 @@ public class DiceRollers extends Thread {
             }
 
             if (allMatched) {
-                numAlllMatches++;
+                nAllMatches++;
             }
         }
 
-        System.out.format("Thread %s has time(s) got %d times of all matches!%n", this.getName(),  numAlllMatches);
+        System.out.format("Thread %s has time(s) got %d times of all matches!%n", this.getName(),  nAllMatches);
 
     }
 
