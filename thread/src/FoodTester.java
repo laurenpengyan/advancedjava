@@ -28,8 +28,7 @@ public class FoodTester {
 
         int programTimeCounter = 0;
 
-        // The following condition may NOT work under IDE due to existence of other thread(eg Thread[Monitor Ctrl-Break,5,main])
-        // while (Thread.activeCount() > 1) {
+        // while (Thread.activeCount() > 1) may NOT work under IDE(eg Thread[Monitor Ctrl-Break,5,main])
 
         // Loop until the server thread is completed
         while (serveThread.getState() != Thread.State.TERMINATED) {
