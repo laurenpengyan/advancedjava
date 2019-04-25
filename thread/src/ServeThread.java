@@ -6,32 +6,28 @@ import java.util.concurrent.TimeUnit;
 public class ServeThread implements Runnable {
 
     private final BlockingQueue<Food> queue;
-    private final CountDownLatch countDownLatch;
     private final int foodToServe;
 
-    public ServeThread(BlockingQueue<Food> queue,  CountDownLatch countDownLatch, int foodToServe) {
+    public ServeThread(BlockingQueue<Food> queue, int foodToServe) {
         this.queue = queue;
-        this.countDownLatch = countDownLatch;
         this.foodToServe = foodToServe;
     }
 
     public void serve(Food food) throws InterruptedException {
-        System.out.println("SERVER\tSTARTING: " + food);
+        System.out.println("SERVER STARTING: " + food);
         Thread.sleep(TimeUnit.SECONDS.toMillis(food.getServeTime()));
-        System.out.println("SERVER\tENDING: " + food);
+        System.out.println("SERVER ENDING: " + food);
     }
 
     public void run() {
-        System.out.println("SERVER\tREADY");
-        for (int i = 0; i < foodToServe; i++) {
-            try {
+
+        try {
+            for (int i = 0; i < foodToServe; i++) {
+                System.out.println("SERVER READY");
                 serve(queue.take());
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-                Thread.interrupted();
-            } finally {
-                countDownLatch.countDown();
             }
+        } catch (InterruptedException e) {
+            System.out.println("Serve interrupted!");
         }
     }
 }

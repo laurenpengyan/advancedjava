@@ -15,17 +15,21 @@ public class CookThread implements Runnable {
 
     public void cook(Food food) {
         try {
-            System.out.println("Cook\tSTARTING: " + food);
+
+            System.out.println("COOK READY");
+
+            System.out.println("COOK STARTING: " + food);
             Thread.sleep(TimeUnit.SECONDS.toMillis(food.getCookTime()));
-            System.out.println("Cook\tENDING: " + food);
+            System.out.println("COOK ENDING: " + food);
+
             queue.put(food);
+
         } catch (InterruptedException e) {
             Thread.interrupted();
         }
     }
 
     public void run() {
-        System.out.println("Cook\tREADY");
         foods.forEach(this::cook);
     }
 
