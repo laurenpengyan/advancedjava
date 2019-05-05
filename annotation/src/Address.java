@@ -45,7 +45,7 @@ public class Address {
                     String fieldValue = (String) field.get(this);
 
                     if (fieldValue == null && minLength > 0) {
-                        throw new IllegalArgumentException(String.format("Field %s is null and didn't meet the min_length=%d!", field.getName(), minLength));
+                        throw new IllegalArgumentException(String.format("Invalid address value [%s]; cannot be null.", field.getName()));
                     } else {
                         int fieldLength = fieldValue.length();
 
