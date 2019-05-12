@@ -5,7 +5,10 @@ import java.util.Objects;
 public class Product {
 
     private final String name, company, brand, colorScentFlavor;
+
+    @NotNull(errorMsg = "Category cannot be null!")
     private Category category;
+
     private List<String> chemicals;
 
     private final int digest;
@@ -25,7 +28,7 @@ public class Product {
         this.digest = String.format("%s|%s|%s|%s|%s", name.toUpperCase(), company.toUpperCase(), brand.toUpperCase(), colorScentFlavor.toUpperCase(), category).hashCode();
     }
 
-    public boolean addChemical(String chemical) {
+    public boolean addChemical(@NotNull(errorMsg = "Chemical cannot be null!") String chemical) {
         if (chemicals.contains(chemical)) {
             return false;
         } else {
